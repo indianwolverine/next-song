@@ -10,7 +10,7 @@ require('./models/user');
 require('./services/passport');
 const authRoutes = require('./routes/authRoutes');
 
-mongoose.connect('mongodb://localhost/quizwizard');
+mongoose.connect('mongodb://localhost/nextsong');
 
 mongoose.Promise = global.Promise;
 
