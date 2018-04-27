@@ -1,5 +1,5 @@
 # next-song
-Have you ever been at a party and questioned the musical tastes of the secret cabal in charge of the playlist?
+Have you ever been at a party and questioned the musical tastes of the secret cult in charge of the playlist?
 
 Or maybe you've been relaxing at your favorite coffee shop, listening to smooth jazz, when suddenly Alt-J interrupts Coltrane?
 
