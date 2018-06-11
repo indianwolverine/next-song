@@ -1,5 +1,5 @@
 const passport = require('passport');
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
+const SpotifyStrategy = require('passport-spotify').Strategy;
 const keys = require('../config/keys');
 const mongoose = require('mongoose');
 const User = mongoose.model('users');
@@ -15,20 +15,20 @@ passport.deserializeUser((id, done) => {
 });
 
 passport.use(
-  new GoogleStrategy(
+  new SpotifyStrategy(
     {
-      clientID: keys.googleClientID,
-      clientSecret: keys.googleClientSecret,
-      callbackURL: '/auth/google/callback',
+      clientID: keys.spotifyClientID,
+      clientSecret: keys.spotifyClientSecret,
+      callbackURL: 'http://localhost:5000/auth/spotify/callback',
       proxy: true
     },
     async (accessToken, refreshToken, profile, done) => {
-      const existingUser = await User.findOne({ googleID: profile.id });
+      const existingUser = await User.findOne({ spotifyID: profile.id });
 
       if (existingUser) {
         return done(null, existingUser);
       }
-      const user = await new User({ googleID: profile.id }).save();
+      const user = await new User({ spotifyID: profile.id }).save();
       done(null, user);
     }
   )

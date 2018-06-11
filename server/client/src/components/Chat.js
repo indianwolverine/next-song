@@ -11,7 +11,7 @@ class Chat extends React.Component {
       messages: []
     };
 
-    this.socket = io('http://8ac09701.ngrok.io'); // or use ngrok
+    this.socket = io('http://localhost:5000'); // or use ngrok
 
     this.sendMessage = e => {
       e.preventDefault();
