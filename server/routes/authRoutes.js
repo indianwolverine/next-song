@@ -1,32 +1,37 @@
-const passport = require('passport');
+const passport = require("passport");
 
 module.exports = app => {
-  app.get('/', (req, res) => {
-    res.send({ hi: 'friend' });
+  app.get("/", (req, res) => {
+    res.send({ hi: "friend" });
   });
 
   app.get(
-    '/auth/spotify',
-    passport.authenticate('spotify', {
-      scope: ['user-read-email', 'user-read-private'],
+    "/auth/spotify",
+    passport.authenticate("spotify", {
+      scope: [
+        "streaming",
+        "user-read-birthdate",
+        "user-read-email",
+        "user-read-private"
+      ],
       showDialog: true
     })
   );
 
   app.get(
-    '/auth/spotify/callback',
-    passport.authenticate('spotify', {
-      failureRedirect: '/'
+    "/auth/spotify/callback",
+    passport.authenticate("spotify", {
+      failureRedirect: "/"
     }),
     (req, res) => {
       req.session.token = req.user.token;
-      res.redirect('/');
+      res.redirect("/");
     }
   );
 
-  app.get('/logout', (req, res) => {
+  app.get("/logout", (req, res) => {
     req.logout();
     req.session = null;
-    res.redirect('/');
+    res.redirect("/");
   });
 };
