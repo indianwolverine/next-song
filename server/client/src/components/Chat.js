@@ -1,28 +1,28 @@
-import React from 'react';
-import io from 'socket.io-client';
+import React from "react";
+import io from "socket.io-client";
 
 class Chat extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      username: '',
-      message: '',
+      username: "",
+      message: "",
       messages: []
     };
 
-    this.socket = io('http://localhost:5000'); // or use ngrok
+    this.socket = io("http://localhost:5000"); // or use ngrok
 
     this.sendMessage = e => {
       e.preventDefault();
-      this.socket.emit('SEND_MESSAGE', {
+      this.socket.emit("SEND_MESSAGE", {
         author: this.state.username,
         message: this.state.message
       });
-      this.setState({ message: '' });
+      this.setState({ message: "" });
     };
 
-    this.socket.on('RECEIVE_MESSAGE', data => {
+    this.socket.on("RECEIVE_MESSAGE", data => {
       addMessage(data);
     });
 
