@@ -2,9 +2,13 @@ const querystring = require("querystring");
 const request = require("request");
 const url = require("url");
 const keys = require("../config/keys");
+const mongoose = require("mongoose");
+const axios = require("axios");
+const Token = mongoose.model("tokens");
 
 module.exports = app => {
-  var generateRandomString = function(length) {
+  var count = 0;
+  var generateRandomString = length => {
     var text = "";
     var possible =
       "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -17,7 +21,15 @@ module.exports = app => {
 
   var stateKey = "spotify_auth_state";
 
-  app.get("/api/login", function(req, res) {
+  apiProxy = {
+    proxy: (req, res) => {
+      axios.get("/api/login");
+    }
+  };
+
+  app.get("/api/token", apiProxy.proxy);
+
+  app.get("/api/login", (req, res) => {
     var state = generateRandomString(16);
     res.cookie(stateKey, state);
 
@@ -36,7 +48,7 @@ module.exports = app => {
     );
   });
 
-  app.get("/api/callback", function(req, res) {
+  app.get("/api/callback", (req, res) => {
     // your application requests refresh and access tokens
     // after checking the state parameter
 
@@ -70,7 +82,7 @@ module.exports = app => {
         json: true
       };
 
-      request.post(authOptions, function(error, response, body) {
+      request.post(authOptions, async (error, response, body) => {
         if (!error && response.statusCode === 200) {
           var access_token = body.access_token,
             refresh_token = body.refresh_token;
@@ -82,15 +94,22 @@ module.exports = app => {
           };
 
           // use the access token to access the Spotify Web API
-          request.get(options, function(error, response, body) {
+          request.get(options, (error, response, body) => {
             console.log(body);
           });
 
-          // we can also pass the token to the browser to make requests from there
-          res.send({
-            access_token: access_token,
-            refresh_token: refresh_token
+          const token = new Token({
+            count: count,
+            accessToken: access_token,
+            refreshToken: refresh_token
           });
+
+          count += 1;
+
+          await token.save();
+
+          // we can also pass the token to the browser to make requests from there
+          res.redirect("http://localhost:3000/");
         } else {
           res.redirect(
             "/api/home#" +
@@ -103,7 +122,7 @@ module.exports = app => {
     }
   });
 
-  app.get("/api/refresh_token", function(req, res) {
+  app.get("/api/refresh_token", (req, res) => {
     // requesting access token from refresh token
     var refresh_token = req.query.refresh_token;
     var authOptions = {
@@ -122,7 +141,7 @@ module.exports = app => {
       json: true
     };
 
-    request.post(authOptions, function(error, response, body) {
+    request.post(authOptions, (error, response, body) => {
       if (!error && response.statusCode === 200) {
         var access_token = body.access_token;
         res.send({

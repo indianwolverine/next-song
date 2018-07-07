@@ -6,8 +6,8 @@ const cookieSession = require("cookie-session");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const keys = require("./config/keys");
-require("./models/user");
-require("./services/passport");
+require("./models/Token");
+// require("./services/passport");
 const spotifyRoutes = require("./routes/spotifyRoutes");
 
 mongoose.connect("mongodb://localhost/nextsong");
@@ -16,7 +16,6 @@ mongoose.Promise = global.Promise;
 const app = express();
 
 app
-  .use(express.static(__dirname + "/public"))
   .use(cors())
   // .use(bodyParser.json())
   // .use(
@@ -29,19 +28,19 @@ app
 
 spotifyRoutes(app);
 
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static("client/build"));
+
+  const path = require("path");
+  app.get("*", (req, res) => {
+    res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+  });
+}
+
 const PORT = process.env.PORT || 8888;
 const server = app.listen(PORT, () => {
   console.log("server is running on port", PORT);
 });
-
-if (process.env.NODE_ENV === "production") {
-  // Serve any static files
-  app.use(express.static(path.join(__dirname, "client/build")));
-  // Handle React routing, return all requests to React app
-  app.get("*", function(req, res) {
-    res.sendFile(path.join(__dirname, "client/build", "index.html"));
-  });
-}
 
 const io = socket(server);
 

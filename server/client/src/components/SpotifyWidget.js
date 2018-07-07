@@ -31,7 +31,7 @@ class SpotifyWidget extends React.Component {
     //   );
 
     this.getToken = async () => {
-      const data = await axios.get("/api/login");
+      const data = await axios.get("/api/token");
       console.log(data);
     };
   }
@@ -43,7 +43,7 @@ class SpotifyWidget extends React.Component {
           src={this.state.src}
           width="300"
           height="380"
-          frameborder="0"
+          frameBorder="0"
           allowtransparency="true"
           allow="encrypted-media"
         />
