@@ -1,4 +1,5 @@
 import React from "react";
+import axios from "axios";
 import SpotifyWebApi from "spotify-web-api-js";
 
 class SpotifyWidget extends React.Component {
@@ -28,6 +29,11 @@ class SpotifyWidget extends React.Component {
     //       console.error(err);
     //     }
     //   );
+
+    this.getToken = async () => {
+      const data = await axios.get("/api/login");
+      console.log(data);
+    };
   }
 
   render() {
@@ -42,7 +48,7 @@ class SpotifyWidget extends React.Component {
           allow="encrypted-media"
         />
         <hr />
-        <button>Surprise me</button>
+        <button onClick={() => this.getToken()}>Surprise me</button>
       </div>
     );
   }

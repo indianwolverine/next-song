@@ -17,7 +17,7 @@ module.exports = app => {
 
   var stateKey = "spotify_auth_state";
 
-  app.get("/login", function(req, res) {
+  app.get("/api/login", function(req, res) {
     var state = generateRandomString(16);
     res.cookie(stateKey, state);
 
@@ -36,7 +36,7 @@ module.exports = app => {
     );
   });
 
-  app.get("/callback", function(req, res) {
+  app.get("/api/callback", function(req, res) {
     // your application requests refresh and access tokens
     // after checking the state parameter
 
@@ -87,16 +87,13 @@ module.exports = app => {
           });
 
           // we can also pass the token to the browser to make requests from there
-          res.redirect(
-            "/?" +
-              querystring.stringify({
-                access_token: access_token,
-                refresh_token: refresh_token
-              })
-          );
+          res.send({
+            access_token: access_token,
+            refresh_token: refresh_token
+          });
         } else {
           res.redirect(
-            "/#" +
+            "/api/home#" +
               querystring.stringify({
                 error: "invalid_token"
               })
@@ -106,7 +103,7 @@ module.exports = app => {
     }
   });
 
-  app.get("/refresh_token", function(req, res) {
+  app.get("/api/refresh_token", function(req, res) {
     // requesting access token from refresh token
     var refresh_token = req.query.refresh_token;
     var authOptions = {
@@ -135,7 +132,7 @@ module.exports = app => {
     });
   });
 
-  app.get("/", (req, res) => {
+  app.get("/api/home", (req, res) => {
     const url_parts = url.parse(req.url, true);
     const query = url_parts.query;
     res.send(query);

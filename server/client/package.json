@@ -3,13 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "proxy": {
-    "/login": {
-      "target": "http://localhost:8888"
-    },
-    "/callback": {
-      "target": "http://localhost:8888"
-    },
-    "/refresh_token": {
+    "/api/*": {
       "target": "http://localhost:8888"
     }
   },
