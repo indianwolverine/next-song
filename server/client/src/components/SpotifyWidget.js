@@ -9,31 +9,22 @@ class SpotifyWidget extends React.Component {
     this.state = {
       src:
         "https://open.spotify.com/embed?uri=spotify:user:invictusforever:playlist:2lW5hDsiy4vJj0AOfZlh9R",
-      queue: []
+      queue: [],
+      tokens: null
     };
 
-    // this.spotifyApi = new SpotifyWebApi();
-    // this.spotifyApi.setAccessToken(
-    //   "BQATmZZqDMJUdmFoISwoiA-mXHDjvR6vj0qgqR0LCOU8sYj1RoPLW6TxQqvTWvr6kh5tigBMEIxRegGfCNFYcP0VljFfsoWPfFCv9siT6danHxfBUfwYeydQfHdgBNIXSMR7HNY9gwKg2zlp1VuWW9nqLrx5snhmYZVIgJwR5WU"
-    // );
-    // this.spotifyApi
-    //   .getArtistAlbums("4Z8W4fKeB5YxbusRsdQVPb", {
-    //     limit: 10,
-    //     offset: 20
-    //   })
-    //   .then(
-    //     function(data) {
-    //       console.log("Album information", data);
-    //     },
-    //     function(err) {
-    //       console.error(err);
-    //     }
-    //   );
-
-    this.getToken = async () => {
-      const data = await axios.get("/api/token");
-      console.log(data);
+    this.getTokens = async () => {
+      const token = await axios.get("/api/token");
+      this.setState({ tokens: token.data });
     };
+  }
+
+  async componentDidMount() {
+    await this.getTokens();
+    console.log(this.state.tokens);
+
+    const spotify = new SpotifyWebApi();
+    spotify.setAccessToken(this.state.tokens.accessToken);
   }
 
   render() {
@@ -48,7 +39,9 @@ class SpotifyWidget extends React.Component {
           allow="encrypted-media"
         />
         <hr />
-        <button onClick={() => this.getToken()}>Surprise me</button>
+        <a href="/api/login">
+          <button>Login</button>
+        </a>
       </div>
     );
   }

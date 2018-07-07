@@ -21,13 +21,10 @@ module.exports = app => {
 
   var stateKey = "spotify_auth_state";
 
-  apiProxy = {
-    proxy: (req, res) => {
-      axios.get("/api/login");
-    }
-  };
-
-  app.get("/api/token", apiProxy.proxy);
+  app.get("/api/token", async (req, res) => {
+    token = await Token.findOne({ count: count });
+    res.send(token);
+  });
 
   app.get("/api/login", (req, res) => {
     var state = generateRandomString(16);
@@ -93,9 +90,11 @@ module.exports = app => {
             json: true
           };
 
+          const userData = null;
           // use the access token to access the Spotify Web API
           request.get(options, (error, response, body) => {
             console.log(body);
+            userData = body;
           });
 
           const token = new Token({
@@ -109,7 +108,14 @@ module.exports = app => {
           await token.save();
 
           // we can also pass the token to the browser to make requests from there
-          res.redirect("http://localhost:3000/");
+          res.redirect(
+            "http://localhost:3000/" +
+              querystring.stringify({
+                accessToken: access_token,
+                refreshToken: refresh_token,
+                user: userData
+              })
+          );
         } else {
           res.redirect(
             "/api/home#" +
