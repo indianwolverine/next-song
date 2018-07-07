@@ -11,6 +11,7 @@ class App extends Component {
         <BrowserRouter>
           <div>
             <Header />
+            <SearchBar />
             <Chat />
             <SpotifyWidget />
           </div>
