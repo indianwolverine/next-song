@@ -90,32 +90,29 @@ module.exports = app => {
             json: true
           };
 
-          const userData = null;
           // use the access token to access the Spotify Web API
-          request.get(options, (error, response, body) => {
-            console.log(body);
-            userData = body;
+          await request.get(options, async (error, response, body) => {
+            console.log(body.id);
+            const token = new Token({
+              userID: body.id,
+              count: count,
+              accessToken: access_token,
+              refreshToken: refresh_token
+            });
+
+            count += 1;
+
+            await token.save();
+            res.redirect(
+              "http://localhost:3000/" +
+                querystring.stringify({
+                  accessToken: access_token,
+                  refreshToken: refresh_token,
+                  user: JSON.stringify(body)
+                })
+            );
           });
-
-          const token = new Token({
-            count: count,
-            accessToken: access_token,
-            refreshToken: refresh_token
-          });
-
-          count += 1;
-
-          await token.save();
-
           // we can also pass the token to the browser to make requests from there
-          res.redirect(
-            "http://localhost:3000/" +
-              querystring.stringify({
-                accessToken: access_token,
-                refreshToken: refresh_token,
-                user: userData
-              })
-          );
         } else {
           res.redirect(
             "/api/home#" +
@@ -155,11 +152,5 @@ module.exports = app => {
         });
       }
     });
-  });
-
-  app.get("/api/home", (req, res) => {
-    const url_parts = url.parse(req.url, true);
-    const query = url_parts.query;
-    res.send(query);
   });
 };

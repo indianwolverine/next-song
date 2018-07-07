@@ -1,5 +1,6 @@
 import React from "react";
 import axios from "axios";
+import qs from "query-string";
 import SpotifyWebApi from "spotify-web-api-js";
 
 class SpotifyWidget extends React.Component {
@@ -22,6 +23,8 @@ class SpotifyWidget extends React.Component {
   async componentDidMount() {
     await this.getTokens();
     console.log(this.state.tokens);
+    console.log(this.props.location.pathname);
+    console.log(qs.parse(this.props.location.pathname));
 
     const spotify = new SpotifyWebApi();
     spotify.setAccessToken(this.state.tokens.accessToken);
