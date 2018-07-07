@@ -11,9 +11,9 @@ class Chat extends React.Component {
       messages: []
     };
 
-    this.socket = io("http://localhost:5000"); // or use ngrok
+    this.socket = io("http://localhost:8888"); // or use ngrok
 
-    this.sendMessage = e => {
+    this.sendMessage = async e => {
       e.preventDefault();
       this.socket.emit("SEND_MESSAGE", {
         author: this.state.username,
@@ -40,7 +40,7 @@ class Chat extends React.Component {
         <div className="messages">
           {this.state.messages.map(message => {
             return (
-              <div>
+              <div key={message.author}>
                 {message.author}: {message.message}
               </div>
             );
