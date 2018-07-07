@@ -3,6 +3,7 @@ import { BrowserRouter, Route } from "react-router-dom";
 import Header from "./Header";
 import Chat from "./Chat";
 import SpotifyWidget from "./SpotifyWidget";
+import SearchBar from "./SearchBar";
 
 class App extends Component {
   render() {
