@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const TokenSchema = new Schema({
   userID: String,
-  count: Number,
+  userInfo: String,
   accessToken: String,
   refreshToken: String
 });

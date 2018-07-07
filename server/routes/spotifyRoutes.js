@@ -7,7 +7,6 @@ const axios = require("axios");
 const Token = mongoose.model("tokens");
 
 module.exports = app => {
-  var count = 0;
   var generateRandomString = length => {
     var text = "";
     var possible =
@@ -22,7 +21,8 @@ module.exports = app => {
   var stateKey = "spotify_auth_state";
 
   app.get("/api/token", async (req, res) => {
-    token = await Token.findOne({ count: count });
+    const request = querystring.parse(req.headers.referer);
+    token = await Token.findOne({ userID: request.userID });
     res.send(token);
   });
 
@@ -95,20 +95,19 @@ module.exports = app => {
             console.log(body.id);
             const token = new Token({
               userID: body.id,
-              count: count,
+              userInfo: JSON.stringify(body),
               accessToken: access_token,
               refreshToken: refresh_token
             });
-
-            count += 1;
 
             await token.save();
             res.redirect(
               "http://localhost:3000/" +
                 querystring.stringify({
-                  accessToken: access_token,
-                  refreshToken: refresh_token,
-                  user: JSON.stringify(body)
+                  // accessToken: access_token,
+                  // refreshToken: refresh_token,
+                  app: "next-song",
+                  userID: body.id
                 })
             );
           });
