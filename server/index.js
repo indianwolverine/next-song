@@ -18,13 +18,13 @@ const app = express();
 app
   .use(express.static(__dirname + "/public"))
   .use(cors())
-  .use(bodyParser.json())
-  .use(
-    cookieSession({
-      name: "session",
-      keys: [keys.cookieKeys]
-    })
-  )
+  // .use(bodyParser.json())
+  // .use(
+  //   cookieSession({
+  //     name: "session",
+  //     keys: [keys.cookieKeys]
+  //   })
+  // )
   .use(cookieParser());
 
 spotifyRoutes(app);
