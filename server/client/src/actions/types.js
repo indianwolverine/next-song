@@ -1,0 +1,1 @@
+export const GET_SPOTIFY_OBJECT = "GET_SPOTIFY_OBJECT";
