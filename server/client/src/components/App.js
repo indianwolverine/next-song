@@ -12,9 +12,10 @@ class App extends Component {
       <div className="App">
         <BrowserRouter>
           <div>
-            <Logo />
-            <Route path="/" component={Header} />
-            <Route path="/" component={SearchBar} />
+            <div className="header">
+              <Logo />
+              <Route path="/" component={SearchBar} />
+            </div>
             <Route path="/" component={Chat} />
             <Route path="/" component={SpotifyWidget} />
           </div>

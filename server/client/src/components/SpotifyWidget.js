@@ -38,14 +38,14 @@ class SpotifyWidget extends React.Component {
   render() {
     return (
       <div>
-        <iframe
+        {/* <iframe
           src={this.state.src}
           width="300"
           height="380"
           frameBorder="0"
           allowtransparency="true"
           allow="encrypted-media"
-        />
+        /> */}
         <hr />
         <a href="/api/login">
           <button>Login</button>

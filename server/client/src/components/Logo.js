@@ -4,8 +4,8 @@ import LogoImg from "../assets/next-song-logo.svg";
 class Logo extends React.Component {
   render() {
     return (
-      <div>
-        <img width="100px" height="100px" src={LogoImg} />
+      <div id="logo">
+        <img width="300px" height="300px" src={LogoImg} />
       </div>
     );
   }

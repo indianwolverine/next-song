@@ -1,0 +1,12 @@
+#logo {
+  margin-top: -25%;
+  margin-bottom: -3%;
+  font: "Myriad Pro";
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
