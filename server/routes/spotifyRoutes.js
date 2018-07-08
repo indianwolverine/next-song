@@ -1,9 +1,7 @@
 const querystring = require("querystring");
 const request = require("request");
-const url = require("url");
 const keys = require("../config/keys");
 const mongoose = require("mongoose");
-const axios = require("axios");
 const User = mongoose.model("users");
 
 module.exports = app => {
@@ -22,7 +20,7 @@ module.exports = app => {
 
   app.get("/api/user", async (req, res) => {
     const request = querystring.parse(req.headers.referer);
-    user = await User.findOne({ userID: request.userID });
+    const user = await User.findOne({ userID: request.userID });
     res.send(user);
   });
 
