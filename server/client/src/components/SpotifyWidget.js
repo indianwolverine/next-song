@@ -31,9 +31,6 @@ class SpotifyWidget extends React.Component {
     this.setState({ userID: res.userID });
 
     await this.getUser();
-    console.log(this.state.tokens);
-    console.log(this.state.userID);
-
     const spotify = new SpotifyWebApi();
     spotify.setAccessToken(this.state.user.accessToken);
   }
