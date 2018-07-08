@@ -4,7 +4,7 @@ const url = require("url");
 const keys = require("../config/keys");
 const mongoose = require("mongoose");
 const axios = require("axios");
-const Token = mongoose.model("tokens");
+const User = mongoose.model("users");
 
 module.exports = app => {
   var generateRandomString = length => {
@@ -20,10 +20,10 @@ module.exports = app => {
 
   var stateKey = "spotify_auth_state";
 
-  app.get("/api/token", async (req, res) => {
+  app.get("/api/user", async (req, res) => {
     const request = querystring.parse(req.headers.referer);
-    token = await Token.findOne({ userID: request.userID });
-    res.send(token);
+    user = await User.findOne({ userID: request.userID });
+    res.send(user);
   });
 
   app.get("/api/login", (req, res) => {
@@ -93,14 +93,14 @@ module.exports = app => {
           // use the access token to access the Spotify Web API
           await request.get(options, async (error, response, body) => {
             console.log(body.id);
-            const token = new Token({
+            const user = new User({
               userID: body.id,
               userInfo: JSON.stringify(body),
               accessToken: access_token,
               refreshToken: refresh_token
             });
 
-            await token.save();
+            await user.save();
             res.redirect(
               "http://localhost:3000/" +
                 querystring.stringify({

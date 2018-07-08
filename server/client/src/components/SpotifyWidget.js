@@ -12,17 +12,17 @@ class SpotifyWidget extends React.Component {
       src:
         "https://open.spotify.com/embed?uri=spotify:user:invictusforever:playlist:2lW5hDsiy4vJj0AOfZlh9R",
       queue: [],
-      tokens: null,
+      user: null,
       userID: null
     };
 
-    this.getTokens = async () => {
-      const token = await axios.get("/api/token", {
+    this.getUser = async () => {
+      const user = await axios.get("/api/user", {
         params: {
           userID: this.state.userID
         }
       });
-      this.setState({ tokens: token.data });
+      this.setState({ user: user.data });
     };
   }
 
@@ -30,12 +30,12 @@ class SpotifyWidget extends React.Component {
     const res = qs.parse(this.props.location.pathname);
     this.setState({ userID: res.userID });
 
-    await this.getTokens();
+    await this.getUser();
     console.log(this.state.tokens);
     console.log(this.state.userID);
 
     const spotify = new SpotifyWebApi();
-    spotify.setAccessToken(this.state.tokens.accessToken);
+    spotify.setAccessToken(this.state.user.accessToken);
   }
 
   render() {

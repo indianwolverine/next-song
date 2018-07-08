@@ -6,7 +6,7 @@ const cookieSession = require("cookie-session");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const keys = require("./config/keys");
-require("./models/Token");
+require("./models/User");
 // require("./services/passport");
 const spotifyRoutes = require("./routes/spotifyRoutes");
 
