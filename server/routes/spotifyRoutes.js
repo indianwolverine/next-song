@@ -91,14 +91,25 @@ module.exports = app => {
           // use the access token to access the Spotify Web API
           await request.get(options, async (error, response, body) => {
             console.log(body.id);
-            const user = new User({
-              userID: body.id,
-              userInfo: JSON.stringify(body),
-              accessToken: access_token,
-              refreshToken: refresh_token
-            });
 
-            await user.save();
+            const existingUser = await User.findOne({ userID: body.id });
+
+            if (!existingUser) {
+              const user = new User({
+                userID: body.id,
+                userInfo: JSON.stringify(body),
+                accessToken: access_token,
+                refreshToken: refresh_token
+              });
+              await user.save();
+            } else {
+              existingUser.update({
+                accessToken: access_token,
+                refreshToken: refresh_token
+              });
+              existingUser.save();
+            }
+
             res.redirect(
               "http://localhost:3000/" +
                 querystring.stringify({
