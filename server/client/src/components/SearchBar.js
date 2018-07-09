@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux';
+import SpotifyWebApi from "spotify-web-api-js";
 class SearchBar extends Component {
   constructor(props) {
     super(props);
@@ -16,6 +17,10 @@ class SearchBar extends Component {
     
   onFormSubmit(event) {
     event.preventDefault();
+
+    console.log(this.props.spotifyApi);
+    /*.searchTracks(this.state.term)
+      .then(data => (console.log(data)))*/
     }
 
   render() {
@@ -35,4 +40,10 @@ class SearchBar extends Component {
   };
 };
 
-export default SearchBar;
+function mapStateToProps(state) {
+  return {
+    spotifyApi: state.spotifyApi
+  };
+}
+
+export default connect(mapStateToProps)(SearchBar);
