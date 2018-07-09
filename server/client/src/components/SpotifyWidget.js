@@ -34,10 +34,7 @@ class SpotifyWidget extends React.Component {
 
     await this.getUser();
     var spotify = new SpotifyWebApi();
-    // spotify.setAccessToken(this.state.user.accessToken);
-    spotify.setAccessToken(
-      "BQDVZyKo2KAnxHVo_pCBpRWt-fRWre4JHU-cCJG3b4ugFKX91ELKkkoZ0sw9dvia2K6G93TL_Nqdxifxb-ylW3TFh_VSLTEQ2ugbE7-xdYDsJnCVWEP0pOd9wnq72keHznus-fr1FLPkj-yk5CpmE_nEifWxfhsW0WO7OSVS_p4"
-    );
+    spotify.setAccessToken(this.state.user.accessToken);
     // spotify.searchTracks("Love").then(
     //   function(data) {
     //     console.log('Search by "Love"', data);
