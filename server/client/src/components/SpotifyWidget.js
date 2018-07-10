@@ -1,7 +1,6 @@
 import React from "react";
 import axios from "axios";
 import qs from "query-string";
-import parse from "url-parse";
 import SpotifyWebApi from "spotify-web-api-js";
 import { connect } from "react-redux";
 import * as actions from "../actions";
@@ -35,27 +34,12 @@ class SpotifyWidget extends React.Component {
     await this.getUser();
     var spotify = new SpotifyWebApi();
     spotify.setAccessToken(this.state.user.accessToken);
-    // spotify.searchTracks("Love").then(
-    //   function(data) {
-    //     console.log('Search by "Love"', data);
-    //   },
-    //   function(err) {
-    //     console.error(err);
-    //   }
-    // );
+    this.props.getSpotifyObject(spotify);
   }
 
   render() {
     return (
       <div>
-        {/* <iframe
-          src={this.state.src}
-          width="300"
-          height="380"
-          frameBorder="0"
-          allowtransparency="true"
-          allow="encrypted-media"
-        /> */}
         <hr />
         <a href="/api/login">
           <button>Login</button>

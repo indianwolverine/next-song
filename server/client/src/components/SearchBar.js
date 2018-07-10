@@ -11,8 +11,14 @@ class SearchBar extends Component {
       console.log(e.target.value);
     };
 
-    this.search = e => {
-      console.log(this.state.term);
+    this.search = async e => {
+      // const data = await this.props.spotify.getUserPlaylists();
+      // console.log(data);
+      // const data = await this.props.spotify.getMyDevices();
+      // console.log(data.devices[0].id);
+      // const data = await this.props.spotify.getMyCurrentPlaybackState();
+      // console.log(data);
+      this.props.spotify.play({});
     };
   }
 

@@ -30,7 +30,7 @@ module.exports = app => {
 
     // your application requests authorization
     var scope =
-      "streaming user-read-birthdate user-read-email user-read-private";
+      "user-modify-playback-state user-read-private user-read-birthdate user-read-email playlist-read-private user-library-read user-library-modify user-top-read playlist-read-collaborative playlist-modify-public playlist-modify-private user-follow-read user-follow-modify user-read-playback-state user-read-currently-playing user-read-recently-played";
     res.redirect(
       "https://accounts.spotify.com/authorize?" +
         querystring.stringify({
@@ -90,7 +90,7 @@ module.exports = app => {
 
           // use the access token to access the Spotify Web API
           await request.get(options, async (error, response, body) => {
-            console.log(body.id);
+            console.log(access_token);
 
             const existingUser = await User.findOne({ userID: body.id });
 
@@ -103,10 +103,8 @@ module.exports = app => {
               });
               await user.save();
             } else {
-              existingUser.update({
-                accessToken: access_token,
-                refreshToken: refresh_token
-              });
+              existingUser.accessToken = access_token;
+              existingUser.refreshToken = refresh_token;
               existingUser.save();
             }
 
