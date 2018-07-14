@@ -18,7 +18,15 @@ class SearchBar extends Component {
       // console.log(data.devices[0].id);
       // const data = await this.props.spotify.getMyCurrentPlaybackState();
       // console.log(data);
+      // this.props.spotify.play({});
+    };
+    //write a toggle function instead of having two separate functions for play and pause
+
+    this.play = async e => {
       this.props.spotify.play({});
+    };
+    this.pause = async e => {
+      this.props.spotify.pause({});
     };
   }
 
@@ -34,6 +42,13 @@ class SearchBar extends Component {
         <span className="input-group-btn">
           <button onClick={this.search} className="btn btn-secondary">
             Submit
+          </button>
+          <hr />
+          <button onClick={this.play} className="btn btn-secondary">
+            Play
+          </button>
+          <button onClick={this.pause} className="btn btn-secondary">
+            Pause
           </button>
         </span>
       </div>
