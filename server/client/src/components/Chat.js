@@ -31,15 +31,31 @@ class Chat extends React.Component {
       addMessage(data);
     });
 
+    this.vote = async e => {
+      const tagClass = e.target.className;
+      this.state.songs[tagClass] += 1;
+
+      this.socket.emit("SEND_VOTE", {
+        songs: this.state.songs
+      });
+
+      console.log("Sent");
+    };
+
+    this.socket.on("RECEIVE_VOTE", data => {
+      console.log("Received");
+      this.setState({ songs: data });
+      console.log(data);
+    });
+
     const addMessage = data => {
       console.log(data);
       this.setState({ messages: [...this.state.messages, data] });
       console.log(this.state.messages);
     };
 
-    this.vote = async e => {
-      const tagClass = e.target.className;
-      this.state.songs[tagClass] += 1;
+    this.see = e => {
+      console.log(this.state.songs);
     };
   }
 
@@ -85,6 +101,9 @@ class Chat extends React.Component {
           </button>
           <button className="vote3" onClick={this.vote}>
             Vote
+          </button>
+          <button className="vote3" onClick={this.see}>
+            See State
           </button>
         </div>
       </div>

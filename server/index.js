@@ -50,4 +50,9 @@ io.on("connection", socket => {
   socket.on("SEND_MESSAGE", data => {
     io.emit("RECEIVE_MESSAGE", data);
   });
+
+  socket.on("SEND_VOTE", data => {
+    console.log(data.songs);
+    io.emit("RECEIVE_VOTE", data.songs);
+  });
 });
