@@ -4,6 +4,7 @@ import Header from "./Header";
 import Chat from "./Chat";
 import SpotifyWidget from "./SpotifyWidget";
 import SearchBar from "./SearchBar";
+import SongQueue from "./SongQueue";
 import Logo from "./Logo";
 
 class App extends Component {
@@ -15,6 +16,7 @@ class App extends Component {
             <div className="header">
               <Logo />
               <Route path="/" component={SearchBar} />
+              {/* <Route path="/" component={SongQueue} /> */}
             </div>
             <Route path="/" component={Chat} />
             <Route path="/" component={SpotifyWidget} />

@@ -4,7 +4,7 @@ class SearchBar extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { term: "" };
+    this.state = { term: "", playing: false, tracks: [] };
 
     this.onInputChange = e => {
       this.setState({ term: e.target.value });
@@ -12,21 +12,34 @@ class SearchBar extends Component {
     };
 
     this.search = async e => {
-      // const data = await this.props.spotify.getUserPlaylists();
-      // console.log(data);
-      // const data = await this.props.spotify.getMyDevices();
-      // console.log(data.devices[0].id);
-      // const data = await this.props.spotify.getMyCurrentPlaybackState();
-      // console.log(data);
-      // this.props.spotify.play({});
+      const data = await this.props.spotify.searchTracks(this.state.term, {
+        limit: 2
+      });
+      this.setState({ tracks: data.tracks.items });
     };
-    //write a toggle function instead of having two separate functions for play and pause
 
-    this.play = async e => {
-      this.props.spotify.play({});
+    this.togglePlayback = async e => {
+      if (this.state.playing) {
+        this.props.spotify.pause({});
+        this.setState({ playing: false });
+      } else {
+        this.props.spotify.play({});
+        this.setState({ playing: true });
+      }
     };
-    this.pause = async e => {
-      this.props.spotify.pause({});
+    this.renderTracks = () => {
+      console.log(this.state.tracks);
+      if (this.state.tracks) {
+        return this.state.tracks.map(track => {
+          return (
+            <div id={track.uri} className="tracks">
+              <img src={track.album.images[1].url} height="265" width="300" />
+              <p>{track.name}</p>
+              <p>{track.artists[0].name}</p>
+            </div>
+          );
+        });
+      }
     };
   }
 
@@ -41,15 +54,13 @@ class SearchBar extends Component {
         />
         <span className="input-group-btn">
           <button onClick={this.search} className="btn btn-secondary">
-            Submit
+            Search
           </button>
           <hr />
-          <button onClick={this.play} className="btn btn-secondary">
-            Play
+          <button onClick={this.togglePlayback} className="btn btn-secondary">
+            Play/Pause
           </button>
-          <button onClick={this.pause} className="btn btn-secondary">
-            Pause
-          </button>
+          {this.renderTracks()}
         </span>
       </div>
     );
