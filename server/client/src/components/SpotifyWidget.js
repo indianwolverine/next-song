@@ -4,14 +4,14 @@ import qs from "query-string";
 import SpotifyWebApi from "spotify-web-api-js";
 import { connect } from "react-redux";
 import * as actions from "../actions";
+import NewPlaylist from "./NewPlaylist";
 
 class SpotifyWidget extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      src:
-        "https://open.spotify.com/embed?uri=spotify:user:invictusforever:playlist:2lW5hDsiy4vJj0AOfZlh9R",
+      src: "",
       queue: [],
       user: null,
       userID: null
@@ -34,7 +34,9 @@ class SpotifyWidget extends React.Component {
     await this.getUser();
     var spotify = new SpotifyWebApi();
     spotify.setAccessToken(this.state.user.accessToken);
-    this.props.getSpotifyObject(spotify);
+    this.props.setSpotifyObject(spotify);
+    this.props.setUser(this.state.user);
+    this.props.setUserID(this.state.userID);
   }
 
   render() {
@@ -44,6 +46,7 @@ class SpotifyWidget extends React.Component {
         <a href="/api/login">
           <button>Login</button>
         </a>
+        <NewPlaylist />
       </div>
     );
   }
