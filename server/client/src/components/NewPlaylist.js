@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import axios from "axios";
+import * as actions from "../actions";
 
 class NewPlaylist extends React.Component {
   constructor(props) {
@@ -10,8 +11,7 @@ class NewPlaylist extends React.Component {
       const headers = {
         Accept: "application/json",
         "Content-Type": "application/json",
-        Authorization:
-          `Bearer ${this.props.user.accessToken}`
+        Authorization: `Bearer ${this.props.user.accessToken}`
       };
 
       const dataString =
@@ -26,7 +26,7 @@ class NewPlaylist extends React.Component {
 
       const data = await axios(options);
 
-      console.log(data);
+      this.props.setPlaylist(data.data.id);
     };
   }
   render() {
@@ -46,4 +46,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(NewPlaylist);
+export default connect(
+  mapStateToProps,
+  actions
+)(NewPlaylist);

@@ -16,9 +16,9 @@ class App extends Component {
             <div className="header">
               <Logo />
               <Route path="/" component={SearchBar} />
-              <Route path="/" component={SongQueue} />
             </div>
-            <Route path="/" component={Chat} />
+            <Route path="/" component={SongQueue} />
+            {/* <Route path="/" component={Chat} /> */}
             <Route path="/" component={SpotifyWidget} />
           </div>
         </BrowserRouter>

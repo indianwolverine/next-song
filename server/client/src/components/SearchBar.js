@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
+import * as actions from "../actions";
+
 class SearchBar extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { term: "", playing: false, tracks: [] };
+    this.state = { term: "", playing: false, tracks: [], trackInfo: {} };
 
     this.onInputChange = e => {
       this.setState({ term: e.target.value });
-      console.log(e.target.value);
     };
 
     this.search = async e => {
@@ -16,6 +17,9 @@ class SearchBar extends Component {
         limit: 2
       });
       this.setState({ tracks: data.tracks.items });
+      for (let track of data.tracks.items) {
+        this.state.trackInfo[track.uri] = track;
+      }
     };
 
     this.togglePlayback = async e => {
@@ -28,18 +32,27 @@ class SearchBar extends Component {
       }
     };
     this.renderTracks = () => {
-      console.log(this.state.tracks);
       if (this.state.tracks) {
         return this.state.tracks.map(track => {
           return (
-            <div id={track.uri} className="tracks">
+            <div key={track.uri} className="tracks">
               <img src={track.album.images[1].url} height="265" width="300" />
-              <p>{track.name}</p>
-              <p>{track.artists[0].name}</p>
+              <p className="title">{track.name}</p>
+              <p className="artist">{track.artists[0].name}</p>
+              <button className={track.uri} onClick={this.addToQueue}>
+                Add To Queue
+              </button>
             </div>
           );
         });
       }
+    };
+
+    this.addToQueue = async e => {
+      const track = e.target.className;
+      const trackData = this.state.trackInfo[track];
+
+      this.props.addSongToQueue(trackData);
     };
   }
 
@@ -73,4 +86,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps)(SearchBar);
+export default connect(
+  mapStateToProps,
+  actions
+)(SearchBar);
