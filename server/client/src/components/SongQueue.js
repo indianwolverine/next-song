@@ -19,8 +19,11 @@ class SongQueue extends React.Component {
     this.socket = io("http://localhost:8888"); // or use ngrok
 
     this.vote = async e => {
-      const tagClass = e.target.className;
-      this.state.songs[tagClass] += 1;
+      const track = e.target.className;
+      if (!this.state.songs[track]) {
+        this.state.songs[track] = 0;
+      }
+      this.state.songs[track] += 1;
 
       this.socket.emit("SEND_VOTE", { songs: this.state.songs });
     };
