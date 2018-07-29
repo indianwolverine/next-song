@@ -10,6 +10,7 @@ class SongQueue extends React.Component {
 
     this.state = {
       songs: [],
+      songVotes: {},
       nextSong: "",
       user: null
     };
@@ -18,31 +19,29 @@ class SongQueue extends React.Component {
 
     this.vote = async e => {
       const track = e.target.className;
-      if (!this.state.songs[track]) {
-        this.state.songs[track] = 0;
+      if (!this.state.songVotes[track]) {
+        this.state.songVotes[track] = 0;
       }
-      this.state.songs[track] += 1;
+      this.state.songVotes[track] += 1;
 
-      this.socket.emit("SEND_VOTE", { songs: this.state.songs });
+      this.socket.emit("SEND_VOTE", { songs: this.state.songVotes });
     };
 
     this.socket.on("RECEIVE_VOTE", data => {
-      this.setState({ songs: data });
+      this.setState({ songVotes: data });
     });
 
-    this.socket.on("UPDATE_QUEUE",  (data) => {
-      data.songs.map(song => {
-        this.state.songs.push(data.song);
-      });
-    })
+    this.socket.on("UPDATE_QUEUE", data => {
+      this.setState({ songs: [...this.state.songs, data.song] });
+    });
 
     this.addToPlaylist = async () => {
       var nextSong = "";
       var maxVotes = 0;
-      for (let song in this.state.songs) {
-        if (this.state.songs[song] > maxVotes) {
+      for (let song in this.state.songVotes) {
+        if (this.state.songVotes[song] > maxVotes) {
           nextSong = song;
-          maxVotes = this.state.songs[song];
+          maxVotes = this.state.songVotes[song];
         }
       }
       await this.setState({ nextSong: nextSong });
@@ -67,7 +66,7 @@ class SongQueue extends React.Component {
 
     this.renderQueue = () => {
       console.log(this.state.songs);
-      if (this.state.user) {
+      if (this.state.songs) {
         return this.state.songs.map(track => {
           if (typeof track === "string") {
             track = JSON.parse(track);
@@ -78,15 +77,13 @@ class SongQueue extends React.Component {
               <img src={track.album.images[1].url} height="265" width="300" />
               <p className="title">{track.name}</p>
               <p className="artist">{track.artists[0].name}</p>
-              <p>{this.state.songs[track.uri]}</p>
+              <p>{this.state.songVotes[track.uri]}</p>
               <button className={track.uri} onClick={this.vote}>
                 Vote
               </button>
             </div>
           );
         });
-      } else {
-        return <div />;
       }
     };
   }
@@ -98,27 +95,6 @@ class SongQueue extends React.Component {
       }
     });
     this.setState({ user: user.data, songs: user.data.queue });
-  }
-
-  async componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
-    this.setState({ user: nextProps.user });
-    nextProps.songs.map(song => {
-      this.state.songs.push(song);
-    });
-
-    
-    if (nextProps.songs.length > 0) {
-      this.socket.emit("UPDATE_Q", {songs: nextProps.songs});
-      await axios.post("/api/addToQueue", {
-        song: nextProps.songs[0],
-        userID: this.props.userID
-      });
-    }
-     
-
-    
-
   }
 
   render() {

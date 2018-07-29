@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
+import io from "socket.io-client";
 import * as actions from "../actions";
 
 class SearchBar extends Component {
@@ -8,6 +9,7 @@ class SearchBar extends Component {
     super(props);
 
     this.state = { term: "", playing: false, tracks: [], trackInfo: {} };
+    this.socket = io("http://localhost:8888");
 
     this.onInputChange = e => {
       this.setState({ term: e.target.value });
@@ -53,6 +55,7 @@ class SearchBar extends Component {
       const track = e.target.className;
       const trackData = this.state.trackInfo[track];
       this.props.addSongToQueue(trackData);
+      this.socket.emit("UPDATE_Q", { song: trackData });
 
       await axios.post("/api/addToQueue", {
         song: trackData,
