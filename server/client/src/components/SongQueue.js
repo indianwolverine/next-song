@@ -9,10 +9,7 @@ class SongQueue extends React.Component {
     super(props);
 
     this.state = {
-      songs: {
-        "spotify:track:52yC8pZMs3XELEqAp1BpHp": 0,
-        "spotify:track:6llIaMotP9Yr8ozgPl8hwl": 0
-      },
+      songs: {},
       nextSong: ""
     };
 
@@ -51,7 +48,7 @@ class SongQueue extends React.Component {
 
       var options = {
         url: `https://api.spotify.com/v1/users/${this.props.userID}/playlists/${
-          this.props.playlistID
+          this.props.user.playlistID
         }/tracks?uris=${this.state.nextSong}`,
         method: "POST",
         headers: headers

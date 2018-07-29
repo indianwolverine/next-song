@@ -17,7 +17,7 @@ const app = express();
 
 app
   .use(cors())
-  // .use(bodyParser.json())
+  .use(bodyParser.json())
   // .use(
   //   cookieSession({
   //     name: "session",

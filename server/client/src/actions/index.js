@@ -21,8 +21,13 @@ export const setUser = user => async dispatch => {
   dispatch({ type: SET_USER, payload: user });
 };
 
-export const setPlaylist = playlist => async dispatch => {
-  dispatch({ type: SET_PLAYLIST, payload: playlist });
+export const setPlaylist = data => async dispatch => {
+  await axios.post("/api/setUserPlaylist", {
+    playlist: data.playlist,
+    userID: data.userID
+  });
+
+  dispatch({ type: SET_PLAYLIST, payload: data.playlist });
 };
 
 export const addSongToQueue = song => async dispatch => {

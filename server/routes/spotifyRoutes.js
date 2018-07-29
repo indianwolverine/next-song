@@ -24,6 +24,14 @@ module.exports = app => {
     res.send(user);
   });
 
+  app.post("/api/setUserPlaylist", async (req, res) => {
+    console.log(req.body);
+
+    const user = await User.findOne({ userID: req.body.userID });
+    user.playlistID = req.body.playlist;
+    user.save();
+  });
+
   app.get("/api/login", (req, res) => {
     var state = generateRandomString(16);
     res.cookie(stateKey, state);

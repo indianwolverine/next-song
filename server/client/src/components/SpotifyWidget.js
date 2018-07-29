@@ -37,6 +37,7 @@ class SpotifyWidget extends React.Component {
     this.props.setSpotifyObject(spotify);
     this.props.setUser(this.state.user);
     this.props.setUserID(this.state.userID);
+    console.log({ playlist: this.state.user.playlistID });
   }
 
   render() {

@@ -26,7 +26,10 @@ class NewPlaylist extends React.Component {
 
       const data = await axios(options);
 
-      this.props.setPlaylist(data.data.id);
+      this.props.setPlaylist({
+        playlist: data.data.id,
+        userID: this.props.userID
+      });
     };
   }
   render() {
