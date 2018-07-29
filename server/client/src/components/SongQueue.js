@@ -10,7 +10,8 @@ class SongQueue extends React.Component {
 
     this.state = {
       songs: {},
-      nextSong: ""
+      nextSong: "",
+      user: null
     };
 
     this.socket = io("http://localhost:8888"); // or use ngrok
@@ -59,20 +60,32 @@ class SongQueue extends React.Component {
     };
 
     this.renderQueue = () => {
-      return this.props.songs.map(track => {
-        return (
-          <div key={track.uri} className="tracks">
-            <img src={track.album.images[1].url} height="265" width="300" />
-            <p className="title">{track.name}</p>
-            <p className="artist">{track.artists[0].name}</p>
-            <p>{this.state.songs[track.uri]}</p>
-            <button className={track.uri} onClick={this.vote}>
-              Vote
-            </button>
-          </div>
-        );
-      });
+      if (this.state.user) {
+        return this.state.user.queue.map(track => {
+          track = JSON.parse(track);
+          return (
+            <div key={track.uri} className="tracks">
+              <img src={track.album.images[1].url} height="265" width="300" />
+              <p className="title">{track.name}</p>
+              <p className="artist">{track.artists[0].name}</p>
+              <p>{this.state.songs[track.uri]}</p>
+              <button className={track.uri} onClick={this.vote}>
+                Vote
+              </button>
+            </div>
+          );
+        });
+      }
     };
+  }
+
+  async componentDidMount() {
+    const user = await axios.get("/api/user", {
+      params: {
+        userID: this.props.userID
+      }
+    });
+    this.setState({ user: user.data });
   }
 
   render() {
