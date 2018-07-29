@@ -6,7 +6,8 @@ const UserSchema = new Schema({
   userInfo: String,
   accessToken: String,
   refreshToken: String,
-  playlistID: String
+  playlistID: String,
+  queue: [String]
 });
 
 mongoose.model("users", UserSchema);

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import axios from "axios";
 import { connect } from "react-redux";
 import * as actions from "../actions";
 
@@ -51,8 +52,12 @@ class SearchBar extends Component {
     this.addToQueue = async e => {
       const track = e.target.className;
       const trackData = this.state.trackInfo[track];
-
       this.props.addSongToQueue(trackData);
+
+      await axios.post("/api/addToQueue", {
+        song: trackData,
+        userID: this.props.userID
+      });
     };
   }
 
@@ -82,7 +87,8 @@ class SearchBar extends Component {
 
 function mapStateToProps(state) {
   return {
-    spotify: state.spotify
+    spotify: state.spotify,
+    userID: state.userID
   };
 }
 

@@ -25,10 +25,14 @@ module.exports = app => {
   });
 
   app.post("/api/setUserPlaylist", async (req, res) => {
-    console.log(req.body);
-
     const user = await User.findOne({ userID: req.body.userID });
     user.playlistID = req.body.playlist;
+    user.save();
+  });
+
+  app.post("/api/addToQueue", async (req, res) => {
+    const user = await User.findOne({ userID: req.body.userID });
+    user.queue.push(JSON.stringify(req.body.song));
     user.save();
   });
 
