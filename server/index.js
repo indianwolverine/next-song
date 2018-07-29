@@ -55,4 +55,9 @@ io.on("connection", socket => {
     console.log(data.songs);
     io.emit("RECEIVE_VOTE", data.songs);
   });
+
+  socket.on("UPDATE_Q", (data) => {
+    console.log("Updating Queue")
+    io.emit("UPDATE_QUEUE", data);
+  });
 });

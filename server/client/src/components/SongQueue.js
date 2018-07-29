@@ -9,7 +9,7 @@ class SongQueue extends React.Component {
     super(props);
 
     this.state = {
-      songs: {},
+      songs: [],
       nextSong: "",
       user: null
     };
@@ -29,6 +29,12 @@ class SongQueue extends React.Component {
     this.socket.on("RECEIVE_VOTE", data => {
       this.setState({ songs: data });
     });
+
+    this.socket.on("UPDATE_QUEUE",  (data) => {
+      data.songs.map(song => {
+        this.state.songs.push(data.song);
+      });
+    })
 
     this.addToPlaylist = async () => {
       var nextSong = "";
@@ -60,9 +66,13 @@ class SongQueue extends React.Component {
     };
 
     this.renderQueue = () => {
+      console.log(this.state.songs);
       if (this.state.user) {
-        return this.state.user.queue.map(track => {
-          track = JSON.parse(track);
+        return this.state.songs.map(track => {
+          if (typeof track === "string") {
+            track = JSON.parse(track);
+          }
+
           return (
             <div key={track.uri} className="tracks">
               <img src={track.album.images[1].url} height="265" width="300" />
@@ -75,6 +85,8 @@ class SongQueue extends React.Component {
             </div>
           );
         });
+      } else {
+        return <div />;
       }
     };
   }
@@ -85,7 +97,28 @@ class SongQueue extends React.Component {
         userID: this.props.userID
       }
     });
-    this.setState({ user: user.data });
+    this.setState({ user: user.data, songs: user.data.queue });
+  }
+
+  async componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    this.setState({ user: nextProps.user });
+    nextProps.songs.map(song => {
+      this.state.songs.push(song);
+    });
+
+    
+    if (nextProps.songs.length > 0) {
+      this.socket.emit("UPDATE_Q", {songs: nextProps.songs});
+      await axios.post("/api/addToQueue", {
+        song: nextProps.songs[0],
+        userID: this.props.userID
+      });
+    }
+     
+
+    
+
   }
 
   render() {
