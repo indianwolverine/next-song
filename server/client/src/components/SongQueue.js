@@ -35,6 +35,10 @@ class SongQueue extends React.Component {
       this.setState({ songs: [...this.state.songs, data.song] });
     });
 
+    this.socket.on("RESET_QUEUE", () => {
+      this.setState({songs: []});
+    })
+
     this.addToPlaylist = async () => {
       var nextSong = "";
       var maxVotes = 0;
@@ -64,6 +68,15 @@ class SongQueue extends React.Component {
       console.log(data);
     };
 
+    this.resetQueue = async () => {
+      this.socket.emit("RESET_Q");
+      await axios.post("/api/resetQueue", {
+        userID: this.props.userID
+      });
+
+      
+    }
+
     this.renderQueue = () => {
       console.log(this.state.songs);
       if (this.state.songs) {
@@ -74,7 +87,7 @@ class SongQueue extends React.Component {
 
           return (
             <div key={track.uri} className="tracks">
-              <img src={track.album.images[1].url} height="265" width="300" />
+              <img src={track.album.images[1].url} height="265" width="300" alt={track.name}/>
               <p className="title">{track.name}</p>
               <p className="artist">{track.artists[0].name}</p>
               <p>{this.state.songVotes[track.uri]}</p>
@@ -98,12 +111,15 @@ class SongQueue extends React.Component {
   }
 
   render() {
-    return (
-      <div>
+    return <div>
         {this.renderQueue()}
-        <button onClick={this.addToPlaylist}>Add Next Song to Playlist</button>
-      </div>
-    );
+        <button onClick={this.addToPlaylist}>
+          Add Next Song to Playlist
+        </button>
+        <button onClick={this.resetQueue}>
+          Reset Queue
+        </button>
+      </div>;
   }
 }
 

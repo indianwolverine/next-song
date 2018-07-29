@@ -36,6 +36,12 @@ module.exports = app => {
     user.save();
   });
 
+  app.post("/api/resetQueue", async (req, res) => {
+    const user = await User.findOne({ userID: req.body.userID });
+    user.queue = [];
+    user.save(); 
+  })
+
   app.get("/api/login", (req, res) => {
     var state = generateRandomString(16);
     res.cookie(stateKey, state);

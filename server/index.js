@@ -60,4 +60,9 @@ io.on("connection", socket => {
     console.log("Updating Queue")
     io.emit("UPDATE_QUEUE", data);
   });
+
+  socket.on("RESET_Q", () => {
+    console.log("Resetting Queue")
+    io.emit("RESET_QUEUE");
+  })
 });

@@ -39,7 +39,7 @@ class SearchBar extends Component {
         return this.state.tracks.map(track => {
           return (
             <div key={track.uri} className="tracks">
-              <img src={track.album.images[1].url} height="265" width="300" />
+              <img src={track.album.images[1].url} height="265" width="300" alt={track.name}/>
               <p className="title">{track.name}</p>
               <p className="artist">{track.artists[0].name}</p>
               <button className={track.uri} onClick={this.addToQueue}>
