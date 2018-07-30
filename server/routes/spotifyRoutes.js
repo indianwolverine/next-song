@@ -39,8 +39,20 @@ module.exports = app => {
   app.post("/api/resetQueue", async (req, res) => {
     const user = await User.findOne({ userID: req.body.userID });
     user.queue = [];
-    user.save(); 
-  })
+    user.save();
+  });
+
+  app.post("/api/updateVotes", async (req, res) => {
+    const user = await User.findOne({ userID: req.body.userID });
+    user.votes = JSON.stringify(req.body.votes);
+    user.save();
+  });
+
+  app.post("/api/resetVotes", async (req, res) => {
+    const user = await User.findOne({ userID: req.body.userID });
+    user.votes = "";
+    user.save();
+  });
 
   app.get("/api/login", (req, res) => {
     var state = generateRandomString(16);

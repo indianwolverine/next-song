@@ -25,6 +25,10 @@ class SongQueue extends React.Component {
       this.state.songVotes[track] += 1;
 
       this.socket.emit("SEND_VOTE", { songs: this.state.songVotes });
+      await axios.post("/api/updateVotes", {
+        votes: this.state.songVotes,
+        userID: this.props.userID
+      });
     };
 
     this.socket.on("RECEIVE_VOTE", data => {
@@ -36,8 +40,12 @@ class SongQueue extends React.Component {
     });
 
     this.socket.on("RESET_QUEUE", () => {
-      this.setState({songs: []});
-    })
+      this.setState({ songs: [] });
+    });
+
+    this.socket.on("RESET_VOTES", () => {
+      this.setState({ songVotes: {} });
+    });
 
     this.addToPlaylist = async () => {
       var nextSong = "";
@@ -63,19 +71,24 @@ class SongQueue extends React.Component {
         method: "POST",
         headers: headers
       };
+      console.log(this.props.user.playlistID);
 
-      const data = await axios(options);
-      console.log(data);
+      axios(options);
+
+      this.socket.emit("RESET_V");
+      axios.post("/api/resetVotes", {
+        userID: this.props.userID
+      });
+
+      this.resetQueue();
     };
 
     this.resetQueue = async () => {
       this.socket.emit("RESET_Q");
-      await axios.post("/api/resetQueue", {
+      axios.post("/api/resetQueue", {
         userID: this.props.userID
       });
-
-      
-    }
+    };
 
     this.renderQueue = () => {
       console.log(this.state.songs);
@@ -87,7 +100,12 @@ class SongQueue extends React.Component {
 
           return (
             <div key={track.uri} className="tracks">
-              <img src={track.album.images[1].url} height="265" width="300" alt={track.name}/>
+              <img
+                src={track.album.images[1].url}
+                height="265"
+                width="300"
+                alt={track.name}
+              />
               <p className="title">{track.name}</p>
               <p className="artist">{track.artists[0].name}</p>
               <p>{this.state.songVotes[track.uri]}</p>
@@ -107,19 +125,21 @@ class SongQueue extends React.Component {
         userID: this.props.userID
       }
     });
-    this.setState({ user: user.data, songs: user.data.queue });
+    this.setState({
+      user: user.data,
+      songs: user.data.queue,
+      songVotes: user.data.votes ? JSON.parse(user.data.votes) : {}
+    });
   }
 
   render() {
-    return <div>
+    return (
+      <div>
         {this.renderQueue()}
-        <button onClick={this.addToPlaylist}>
-          Add Next Song to Playlist
-        </button>
-        <button onClick={this.resetQueue}>
-          Reset Queue
-        </button>
-      </div>;
+        <button onClick={this.addToPlaylist}>Add Next Song to Playlist</button>
+        <button onClick={this.resetQueue}>Reset Queue</button>
+      </div>
+    );
   }
 }
 

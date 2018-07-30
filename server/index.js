@@ -56,13 +56,18 @@ io.on("connection", socket => {
     io.emit("RECEIVE_VOTE", data.songs);
   });
 
-  socket.on("UPDATE_Q", (data) => {
-    console.log("Updating Queue")
+  socket.on("UPDATE_Q", data => {
+    console.log("Updating Queue");
     io.emit("UPDATE_QUEUE", data);
   });
 
   socket.on("RESET_Q", () => {
-    console.log("Resetting Queue")
+    console.log("Resetting Queue");
     io.emit("RESET_QUEUE");
-  })
+  });
+
+  socket.on("RESET_V", () => {
+    console.log("Resetting Votes");
+    io.emit("RESET_VOTES");
+  });
 });
