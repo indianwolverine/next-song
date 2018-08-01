@@ -45,7 +45,7 @@ const server = app.listen(PORT, () => {
 const io = socket(server);
 
 io.on("connection", socket => {
-  console.log(socket.id);
+  console.log(socket.id + " connected");
 
   socket.on("SEND_MESSAGE", data => {
     io.emit("RECEIVE_MESSAGE", data);
