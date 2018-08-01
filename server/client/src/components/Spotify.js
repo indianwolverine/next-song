@@ -4,9 +4,8 @@ import qs from "query-string";
 import SpotifyWebApi from "spotify-web-api-js";
 import { connect } from "react-redux";
 import * as actions from "../actions";
-import NewPlaylist from "./NewPlaylist";
 
-class SpotifyWidget extends React.Component {
+class Spotify extends React.Component {
   constructor(props) {
     super(props);
 
@@ -26,7 +25,7 @@ class SpotifyWidget extends React.Component {
   }
 
   async componentDidMount() {
-    const res = qs.parse(this.props.location.pathname);
+    const res = qs.parse(window.location.pathname);
     this.setState({ userID: res.userID });
 
     await this.getUser();
@@ -45,7 +44,6 @@ class SpotifyWidget extends React.Component {
         <a href="/api/login">
           <button>Login</button>
         </a>
-        <NewPlaylist />
       </div>
     );
   }
@@ -54,4 +52,4 @@ class SpotifyWidget extends React.Component {
 export default connect(
   null,
   actions
-)(SpotifyWidget);
+)(Spotify);

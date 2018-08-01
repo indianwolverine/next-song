@@ -1,15 +1,11 @@
 import React, { Component } from "react";
 import Logo from "./Logo";
-import "../styles/grid.css";
-import MenuIcon from "./MenuIcon";
 import Guitars from "../assets/guitars.jpg";
 
 class HomePage extends Component {
   render() {
     return (
       <div className="wrapper">
-        <img id="guitars" src={Guitars} alt="guitars" />
-        <MenuIcon />
         <Logo />
         <div id="color" />
         <div id="description">
@@ -28,7 +24,9 @@ class HomePage extends Component {
           </p>
         </div>
         <button id="join">Join a Room</button>
-        <button id="host">Host a Room</button>
+        <button id="host">
+          <a href="/api/login">Host a Room</a>
+        </button>
       </div>
     );
   }
