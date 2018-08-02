@@ -43,7 +43,7 @@ a {
 #color {
   grid-column: 4/13;
   grid-row: 5/12;
-  background-color: lightgrey;
+  background-color: slategrey;
   border-radius: 12px;
 }
 

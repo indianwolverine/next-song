@@ -140,7 +140,7 @@ module.exports = app => {
             }
 
             res.redirect(
-              "http://localhost:3000/nextsong/" +
+              "http://localhost:3000/host/" +
                 querystring.stringify({
                   // accessToken: access_token,
                   // refreshToken: refresh_token,
