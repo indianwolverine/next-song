@@ -67,6 +67,16 @@ class SearchBar extends Component {
         userID: this.props.userID
       });
     };
+
+    this.joinRoom = () => {
+      this.socket.emit("JOIN_ROOM", {
+        room: "indianwolverine"
+      });
+    };
+
+    this.socket.on("ROOM_JOINED", () => {
+      console.log("Joined indianwolverine");
+    });
   }
 
   render() {
@@ -85,6 +95,9 @@ class SearchBar extends Component {
           <hr />
           <button onClick={this.togglePlayback} className="btn btn-secondary">
             Play/Pause
+          </button>
+          <button onClick={this.joinRoom} className="btn btn-secondary">
+            Join Room
           </button>
           {this.renderTracks()}
         </span>
