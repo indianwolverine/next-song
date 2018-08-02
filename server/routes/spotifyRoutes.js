@@ -3,6 +3,7 @@ const request = require("request");
 const keys = require("../config/keys");
 const mongoose = require("mongoose");
 const User = mongoose.model("users");
+const Room = mongoose.model("rooms");
 
 module.exports = app => {
   var generateRandomString = length => {
@@ -139,13 +140,13 @@ module.exports = app => {
             }
 
             res.redirect(
-              "http://localhost:3000/nextsong/" +
-                querystring.stringify({
-                  // accessToken: access_token,
-                  // refreshToken: refresh_token,
-                  app: "next-song",
-                  userID: body.id
-                })
+              "http://localhost:3000/nextsong"
+              // querystring.stringify({
+              //   // accessToken: access_token,
+              //   // refreshToken: refresh_token,
+              //   app: "next-song",
+              //   userID: body.id
+              // })
             );
           });
           // we can also pass the token to the browser to make requests from there

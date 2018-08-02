@@ -5,7 +5,8 @@ import {
   SET_USER_ID,
   SET_USER,
   SET_PLAYLIST,
-  ADD_SONG_TO_QUEUE
+  ADD_SONG_TO_QUEUE,
+  SET_ROOM
 } from "./types";
 
 export const setSpotifyObject = spotify => async dispatch => {
@@ -31,4 +32,8 @@ export const setPlaylist = data => async dispatch => {
 
 export const addSongToQueue = song => async dispatch => {
   dispatch({ type: ADD_SONG_TO_QUEUE, payload: song });
+};
+
+export const setRoom = room => async dispatch => {
+  dispatch({ type: SET_ROOM, payload: room });
 };

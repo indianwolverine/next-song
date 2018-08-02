@@ -1,15 +1,29 @@
-import React, { Component } from "react";
+import React from "react";
 import Logo from "./Logo";
-import "../styles/grid.css";
-import MenuIcon from "./MenuIcon";
-import Guitars from "../assets/guitars.jpg";
+import * as actions from "../actions";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
-class HomePage extends Component {
+class HomePage extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      room: ""
+    };
+
+    this.onInputChange = e => {
+      this.setState({ room: e.target.value });
+    };
+
+    this.setRoom = () => {
+      this.props.setRoom(this.state.room);
+    };
+  }
   render() {
     return (
       <div className="wrapper">
-        <img id="guitars" src={Guitars} alt="guitars" />
-        <MenuIcon />
+        <div id="gradient" />
         <Logo />
         <div id="color" />
         <div id="description">
@@ -17,21 +31,34 @@ class HomePage extends Component {
             Let the people decide the <strong>#nextsong.</strong>
           </h1>
           <p>
-            Have you ever been at a party and questioned the musical tastes of
-            the secret cult in charge of the playlist? Or maybe you've been
-            relaxing at your favorite coffee shop, listening to smooth jazz,
-            when suddenly Alt-J interrupts Coltrane? Next Song is a project to
-            develop an interactive, realtime playlist for any social occasion or
-            public place, where people get to suggest songs and vote on the next
-            one they want to hear. Because, after all, shouldn't the people
-            control (the atmosphere of) the party?
+            Next Song is a project to develop an interactive, realtime playlist
+            for any social occasion or public place, where people get to suggest
+            songs and vote on the next one they want to hear. Because, after
+            all, shouldn't the people control (the atmosphere of) the party?
           </p>
         </div>
-        <button id="join">Join a Room</button>
-        <button id="host">Host a Room</button>
+        <input
+          placeholder="Room"
+          className="form-control"
+          value={this.state.room}
+          onChange={this.onInputChange}
+        />
+        <Link to="/join">
+          <button id="join" onClick={this.setRoom}>
+            Join
+          </button>
+        </Link>
+        <a href="/api/login">
+          <button id="host" onClick={this.setRoom}>
+            Host
+          </button>
+        </a>
       </div>
     );
   }
 }
 
-export default HomePage;
+export default connect(
+  null,
+  actions
+)(HomePage);

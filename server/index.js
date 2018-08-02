@@ -7,6 +7,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const keys = require("./config/keys");
 require("./models/User");
+require("./models/Room");
 // require("./services/passport");
 const spotifyRoutes = require("./routes/spotifyRoutes");
 
@@ -46,6 +47,12 @@ const io = socket(server);
 
 io.on("connection", socket => {
   console.log(socket.id + " connected");
+
+  socket.on("JOIN_ROOM", data => {
+    console.log(data.room);
+    socket.join(data.room);
+    io.to(data.room).emit("ROOM_JOINED");
+  });
 
   socket.on("SEND_MESSAGE", data => {
     io.emit("RECEIVE_MESSAGE", data);

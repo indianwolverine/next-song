@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import reduxThunk from "redux-thunk";
 import "./styles/style.css";
+import "./styles/grid.css";
 import reducers from "./reducers";
 import registerServiceWorker from "./registerServiceWorker";
 
