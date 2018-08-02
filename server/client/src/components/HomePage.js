@@ -1,11 +1,13 @@
 import React from "react";
 import Logo from "./Logo";
-import Guitars from "../assets/guitars.jpg";
+import Background from "../assets/redtiles.jpg";
 
 class HomePage extends React.Component {
   render() {
     return (
       <div className="wrapper">
+        <div id="gradient"></div>
+        {/*<img id="back" src={Background} alt=""/>*/}
         <Logo />
         <div id="color" />
         <div id="description">

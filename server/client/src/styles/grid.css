@@ -3,21 +3,29 @@
   grid-template-columns: repeat(15, 1fr);
   grid-auto-rows: 50px;
   font-family: "PT Sans";
-  font-size: 15px;
+  font-size: 17px;
   color: #00417a;
   font-weight: 300;
+  grid-row: 1/13;
+  margin: -10px -10px 0px -10px;
 }
 
+#gradient {
+  background: linear-gradient(white,#00417a);
+  grid-column: 1/16;
+  grid-row: 1/13;
+}
 a {
   color: white;
+  text-decoration: none;
 }
 
-/* #guitars {
+/*#back {
   grid-column: 1/16;
-  grid-row: 1/11;
+  grid-row: 3/13;
   width: 100%;
   height: 100%;
-} */
+}*/
 
 /* #menu {
   grid-column: 15;
@@ -41,7 +49,7 @@ a {
 
 #description {
   grid-column: 5/12;
-  grid-row: 5/10;
+  grid-row: 5/12;
   text-align: center;
 }
 
