@@ -1,8 +1,8 @@
-import React, { Component } from "react";
+import React from "react";
 import Logo from "./Logo";
 import Guitars from "../assets/guitars.jpg";
 
-class HomePage extends Component {
+class HomePage extends React.Component {
   render() {
     return (
       <div className="wrapper">
