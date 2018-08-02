@@ -38,4 +38,4 @@ function mapStateToProps(state) {
   };
 }
 
-export default withRouter(connect(mapStateToProps)(Room));
+export default connect(mapStateToProps)(Room);

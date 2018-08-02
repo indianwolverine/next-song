@@ -12,9 +12,9 @@ class App extends Component {
         <BrowserRouter>
           <div>
             <Route exact path="/" component={HomePage} />
+            <Route path="/nextsong" component={Room} />
             <Route path="/join" component={JoinPage} />
             <Route path="/host" component={HostPage} />
-            <Route exact path="/nextsong" component={Room} />
           </div>
         </BrowserRouter>
       </div>
