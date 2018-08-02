@@ -24,6 +24,7 @@ class HomePage extends React.Component {
     return (
       <div className="wrapper">
         <div id="gradient" />
+        {/*<img id="back" src={Background} alt=""/>*/}
         <Logo />
         <div id="color" />
         <div id="description">
