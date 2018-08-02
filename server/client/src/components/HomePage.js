@@ -1,8 +1,26 @@
 import React from "react";
 import Logo from "./Logo";
 import Background from "../assets/redtiles.jpg";
+import * as actions from "../actions";
+import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 
 class HomePage extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      room: ""
+    };
+
+    this.onInputChange = e => {
+      this.setState({ room: e.target.value });
+    };
+
+    this.setRoom = () => {
+      this.props.setRoom(this.state.room);
+    };
+  }
   render() {
     return (
       <div className="wrapper">
@@ -22,13 +40,24 @@ class HomePage extends React.Component {
             control (the atmosphere of) the party?
           </p>
         </div>
-        <button id="join">Join a Room</button>
-        <button id="host">
-          <a href="/api/login">Host a Room</a>
+        <input
+          placeholder="Room"
+          className="form-control"
+          value={this.state.room}
+          onChange={this.onInputChange}
+        />
+        <button id="join" onClick={this.setRoom}>
+          <Link to="/nextsong">Join</Link>
+        </button>
+        <button id="host" onClick={this.setRoom}>
+          <a href="/api/login">Host</a>
         </button>
       </div>
     );
   }
 }
 
-export default HomePage;
+export default connect(
+  null,
+  actions
+)(HomePage);

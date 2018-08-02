@@ -1,4 +1,5 @@
 import React from "react";
+import { connect } from "react-redux";
 import Logo from "./Logo";
 import SearchBar from "./SearchBar";
 import NewPlaylist from "./NewPlaylist";
@@ -6,6 +7,14 @@ import Spotify from "./Spotify";
 import SongQueue from "./SongQueue";
 
 class Room extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.room = () => {
+      console.log(this.props.room);
+    };
+  }
+
   render() {
     return (
       <div className="room">
@@ -16,9 +25,16 @@ class Room extends React.Component {
         </div>
         <SongQueue />
         <Spotify />
+        <button onClick={this.room}>Room</button>
       </div>
     );
   }
 }
 
-export default Room;
+function mapStateToProps(state) {
+  return {
+    room: state.room
+  };
+}
+
+export default connect(mapStateToProps)(Room);
