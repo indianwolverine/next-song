@@ -1,6 +1,5 @@
 import React from "react";
 import Logo from "./Logo";
-import Background from "../assets/redtiles.jpg";
 import * as actions from "../actions";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
@@ -24,7 +23,7 @@ class HomePage extends React.Component {
   render() {
     return (
       <div className="wrapper">
-        <div id="gradient"></div>
+        <div id="gradient" />
         {/*<img id="back" src={Background} alt=""/>*/}
         <Logo />
         <div id="color" />
@@ -33,11 +32,10 @@ class HomePage extends React.Component {
             Let the people decide the <strong>#nextsong.</strong>
           </h1>
           <p>
-            Next Song is a project to
-            develop an interactive, realtime playlist for any social occasion or
-            public place, where people get to suggest songs and vote on the next
-            one they want to hear. Because, after all, shouldn't the people
-            control (the atmosphere of) the party?
+            Next Song is a project to develop an interactive, realtime playlist
+            for any social occasion or public place, where people get to suggest
+            songs and vote on the next one they want to hear. Because, after
+            all, shouldn't the people control (the atmosphere of) the party?
           </p>
         </div>
         <input
@@ -46,12 +44,16 @@ class HomePage extends React.Component {
           value={this.state.room}
           onChange={this.onInputChange}
         />
-        <button id="join" onClick={this.setRoom}>
-          <Link to="/nextsong">Join</Link>
-        </button>
-        <button id="host" onClick={this.setRoom}>
-          <a href="/api/login">Host</a>
-        </button>
+        <Link to="/join">
+          <button id="join" onClick={this.setRoom}>
+            Join
+          </button>
+        </Link>
+        <a href="/api/login">
+          <button id="host" onClick={this.setRoom}>
+            Host
+          </button>
+        </a>
       </div>
     );
   }

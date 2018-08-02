@@ -11,7 +11,7 @@
 }
 
 #gradient {
-  background: linear-gradient(white,#00417a);
+  background: linear-gradient(white, #00417a);
   grid-column: 1/16;
   grid-row: 1/13;
 }
