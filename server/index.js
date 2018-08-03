@@ -11,7 +11,7 @@ require("./models/Room");
 // require("./services/passport");
 const spotifyRoutes = require("./routes/spotifyRoutes");
 
-mongoose.connect("mongodb://localhost/nextsong");
+mongoose.connect(keys.mongoURI);
 mongoose.Promise = global.Promise;
 
 const app = express();
