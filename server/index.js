@@ -54,27 +54,23 @@ io.on("connection", socket => {
     io.to(data.room).emit("ROOM_JOINED", data.room);
   });
 
-  socket.on("SEND_MESSAGE", data => {
-    io.emit("RECEIVE_MESSAGE", data);
-  });
-
   socket.on("SEND_VOTE", data => {
     console.log(data.songs);
-    io.emit("RECEIVE_VOTE", data.songs);
+    io.to(data.room).emit("RECEIVE_VOTE", data.songs);
   });
 
   socket.on("UPDATE_Q", data => {
     console.log("Updating Queue");
-    io.emit("UPDATE_QUEUE", data);
+    io.to(data.room).emit("UPDATE_QUEUE", data);
   });
 
-  socket.on("RESET_Q", () => {
+  socket.on("RESET_Q", data => {
     console.log("Resetting Queue");
-    io.emit("RESET_QUEUE");
+    io.to(data.room).emit("RESET_QUEUE");
   });
 
-  socket.on("RESET_V", () => {
+  socket.on("RESET_V", data => {
     console.log("Resetting Votes");
-    io.emit("RESET_VOTES");
+    io.to(data.room).emit("RESET_VOTES");
   });
 });

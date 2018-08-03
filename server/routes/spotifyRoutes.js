@@ -25,13 +25,21 @@ module.exports = app => {
     res.send(user);
   });
 
+  app.post("/api/getHost", async (req, res) => {
+    const host = await User.findOne({ userID: req.body.userID });
+    res.send(host);
+  });
+
   app.post("/api/getRoom", async (req, res) => {
     const room = await Room.findOne({ host: req.body.host });
     res.send(room);
   });
 
-  app.post('/api/findRoom', async (req, res) => {
-    const room = await Room.findOne({ name: req.body.room, password: req.body.password});
+  app.post("/api/findRoom", async (req, res) => {
+    const room = await Room.findOne({
+      name: req.body.room,
+      password: req.body.password
+    });
     if (room) {
       const user = await User.findOne({ userID: room.host });
       res.send(user);

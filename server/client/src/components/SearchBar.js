@@ -8,8 +8,13 @@ class SearchBar extends Component {
   constructor(props) {
     super(props);
 
-    this.state = { term: "", playing: false, tracks: [], trackInfo: {} };
-    this.socket = io("http://localhost:8888");
+    this.state = {
+      term: "",
+      playing: false,
+      tracks: [],
+      trackInfo: {},
+      spotify: ""
+    };
 
     this.onInputChange = e => {
       this.setState({ term: e.target.value });
@@ -26,6 +31,8 @@ class SearchBar extends Component {
     };
 
     this.togglePlayback = async e => {
+      console.log(this.props);
+
       if (this.state.playing) {
         this.props.spotify.pause({});
         this.setState({ playing: false });
@@ -60,23 +67,16 @@ class SearchBar extends Component {
       const track = e.target.className;
       const trackData = this.state.trackInfo[track];
       this.props.addSongToQueue(trackData);
-      this.socket.emit("UPDATE_Q", { song: trackData });
+      this.props.socket.emit("UPDATE_Q", {
+        song: trackData,
+        room: this.props.room
+      });
 
       await axios.post("/api/addToQueue", {
         song: trackData,
         userID: this.props.userID
       });
     };
-
-    this.joinRoom = () => {
-      this.socket.emit("JOIN_ROOM", {
-        room: this.props.room
-      });
-    };
-
-    this.socket.on("ROOM_JOINED", data => {
-      console.log(data);
-    });
   }
 
   render() {
@@ -96,9 +96,6 @@ class SearchBar extends Component {
           <button onClick={this.togglePlayback} className="btn btn-secondary">
             Play/Pause
           </button>
-          <button onClick={this.joinRoom} className="btn btn-secondary">
-            Join Room
-          </button>
           {this.renderTracks()}
         </span>
       </div>
@@ -108,9 +105,7 @@ class SearchBar extends Component {
 
 function mapStateToProps(state) {
   return {
-    spotify: state.spotify,
-    userID: state.userID,
-    room: state.room
+    userID: state.userID
   };
 }
 

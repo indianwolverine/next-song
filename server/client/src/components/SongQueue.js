@@ -15,8 +15,6 @@ class SongQueue extends React.Component {
       user: null
     };
 
-    this.socket = io("http://localhost:8888"); // or use ngrok
-
     this.vote = async e => {
       const track = e.target.className;
       if (!this.state.songVotes[track]) {
@@ -24,26 +22,29 @@ class SongQueue extends React.Component {
       }
       this.state.songVotes[track] += 1;
 
-      this.socket.emit("SEND_VOTE", { songs: this.state.songVotes });
+      this.props.socket.emit("SEND_VOTE", {
+        songs: this.state.songVotes,
+        room: this.props.room
+      });
       await axios.post("/api/updateVotes", {
         votes: this.state.songVotes,
         userID: this.props.userID
       });
     };
 
-    this.socket.on("RECEIVE_VOTE", data => {
+    this.props.socket.on("RECEIVE_VOTE", data => {
       this.setState({ songVotes: data });
     });
 
-    this.socket.on("UPDATE_QUEUE", data => {
+    this.props.socket.on("UPDATE_QUEUE", data => {
       this.setState({ songs: [...this.state.songs, data.song] });
     });
 
-    this.socket.on("RESET_QUEUE", () => {
+    this.props.socket.on("RESET_QUEUE", () => {
       this.setState({ songs: [] });
     });
 
-    this.socket.on("RESET_VOTES", () => {
+    this.props.socket.on("RESET_VOTES", () => {
       this.setState({ songVotes: {} });
     });
 
@@ -75,7 +76,7 @@ class SongQueue extends React.Component {
 
       axios(options);
 
-      this.socket.emit("RESET_V");
+      this.props.socket.emit("RESET_V", { room: this.props.room });
       axios.post("/api/resetVotes", {
         userID: this.props.userID
       });
@@ -84,7 +85,7 @@ class SongQueue extends React.Component {
     };
 
     this.resetQueue = async () => {
-      this.socket.emit("RESET_Q");
+      this.props.socket.emit("RESET_Q", { room: this.props.room });
       axios.post("/api/resetQueue", {
         userID: this.props.userID
       });
@@ -120,10 +121,8 @@ class SongQueue extends React.Component {
   }
 
   async componentDidMount() {
-    const user = await axios.get("/api/user", {
-      params: {
-        userID: this.props.userID
-      }
+    const user = await axios.post("/api/getHost", {
+      userID: this.props.userID
     });
     this.setState({
       user: user.data,

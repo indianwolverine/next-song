@@ -1,6 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import axios from "axios";
+import SpotifyWebApi from "spotify-web-api-js";
+import io from "socket.io-client";
 import Logo from "./Logo";
 import SearchBar from "./SearchBar";
 import NewPlaylist from "./NewPlaylist";
@@ -13,8 +15,15 @@ class Room extends React.Component {
     super(props);
 
     this.state = {
-      room: ""
+      room: "",
+      user: null,
+      spotify: null
     };
+
+    this.socket = io("http://localhost:8888"); // or use ngrok
+    this.socket.on("ROOM_JOINED", data => {
+      console.log(data);
+    });
   }
 
   async componentDidMount() {
@@ -22,7 +31,20 @@ class Room extends React.Component {
       host: this.props.userID
     });
     this.setState({ room: room.data.name });
+    this.socket.emit("JOIN_ROOM", {
+      room: room.data.name
+    });
     this.props.setRoom(room.data);
+
+    this.setState({ user: JSON.parse(localStorage.getItem("user")) });
+    console.log(this.state.user);
+
+    var spotify = new SpotifyWebApi();
+    spotify.setAccessToken(this.state.user.accessToken);
+    this.props.setSpotifyObject(spotify);
+    this.setState({ spotify: spotify });
+
+    console.log(this.state);
   }
 
   render() {
@@ -31,12 +53,24 @@ class Room extends React.Component {
         <div className="header">
           <h1>{this.state.room}</h1>
           <Logo />
-          <SearchBar />
-          <NewPlaylist />
+          <SearchBar
+            user={this.state.user}
+            spotify={this.state.spotify}
+            room={this.state.room}
+            socket={this.socket}
+          />
+          <NewPlaylist
+            user={this.state.user}
+            spotify={this.state.spotify}
+            room={this.state.room}
+          />
         </div>
-        <SongQueue />
-        <Spotify />
-        <button onClick={this.room}>Room</button>
+        <SongQueue
+          user={this.state.user}
+          spotify={this.state.spotify}
+          room={this.state.room}
+          socket={this.socket}
+        />
       </div>
     );
   }
@@ -45,7 +79,8 @@ class Room extends React.Component {
 function mapStateToProps(state) {
   return {
     room: state.room,
-    userID: state.userID
+    userID: state.userID,
+    spotify: state.spotify
   };
 }
 

@@ -34,12 +34,12 @@ class JoinPage extends React.Component {
         password: this.state.password
       });
 
-      const user = JSON.parse(host.data.userInfo);
+      console.log(host.data);
 
       var spotify = new SpotifyWebApi();
       spotify.setAccessToken(host.data.accessToken);
       this.props.setSpotifyObject(spotify);
-      this.props.setUser(user);
+      this.props.setUser(host.data);
       this.props.setUserID(host.data.userID);
       this.props.setPlaylist({ playlist: host.data.playlistID });
 
@@ -75,9 +75,7 @@ class JoinPage extends React.Component {
   }
 }
 
-export default withRouter(
-  connect(
-    null,
-    actions
-  )(JoinPage)
-);
+export default connect(
+  null,
+  actions
+)(JoinPage);

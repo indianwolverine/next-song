@@ -48,14 +48,20 @@ class HostPage extends React.Component {
 
   async componentDidMount() {
     const res = qs.parse(window.location.pathname);
+    console.log(res.userID);
     this.setState({ userID: res.userID });
-    await this.getUser();
+    const user = await axios.post("/api/getHost", {
+      userID: res.userID
+    });
+    console.log(user);
+
     var spotify = new SpotifyWebApi();
-    spotify.setAccessToken(this.state.user.accessToken);
+    spotify.setAccessToken(user.data.accessToken);
     this.props.setSpotifyObject(spotify);
-    this.props.setUser(this.state.user);
-    this.props.setUserID(this.state.userID);
-    this.props.setPlaylist({ playlist: this.state.user.playlistID });
+    this.props.setUser(user.data);
+    this.props.setUserID(user.data.userID);
+    this.props.setPlaylist({ playlist: user.data.playlistID });
+    localStorage.setItem("user", JSON.stringify(user.data));
   }
 
   render() {
