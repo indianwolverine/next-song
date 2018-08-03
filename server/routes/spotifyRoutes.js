@@ -25,6 +25,21 @@ module.exports = app => {
     res.send(user);
   });
 
+  app.post("/api/getRoom", async (req, res) => {
+    const room = await Room.findOne({ host: req.body.host });
+    res.send(room);
+  });
+
+  app.post('/api/findRoom', async (req, res) => {
+    const room = await Room.findOne({ name: req.body.room, password: req.body.password});
+    if (room) {
+      const user = await User.findOne({ userID: room.host });
+      res.send(user);
+    } else {
+      res.send.status(404);
+    }
+  });
+
   app.post("/api/setUserPlaylist", async (req, res) => {
     const user = await User.findOne({ userID: req.body.userID });
     user.playlistID = req.body.playlist;
@@ -55,6 +70,22 @@ module.exports = app => {
     user.save();
   });
 
+  app.post("/api/createRoom", async (req, res) => {
+    const room = new Room({
+      host: req.body.userID,
+      name: req.body.room,
+      password: req.body.password
+    });
+
+    const user = await User.findOne({ userID: req.body.userID });
+    user.roomName = req.body.room;
+
+    room.save();
+    user.save();
+
+    res.send.status(200);
+  });
+
   app.get("/api/login", (req, res) => {
     var state = generateRandomString(16);
     res.cookie(stateKey, state);
@@ -75,6 +106,7 @@ module.exports = app => {
   });
 
   app.get("/api/callback", (req, res) => {
+    4;
     // your application requests refresh and access tokens
     // after checking the state parameter
 

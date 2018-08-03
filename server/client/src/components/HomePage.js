@@ -7,18 +7,6 @@ import { Link } from "react-router-dom";
 class HomePage extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      room: ""
-    };
-
-    this.onInputChange = e => {
-      this.setState({ room: e.target.value });
-    };
-
-    this.setRoom = () => {
-      this.props.setRoom(this.state.room);
-    };
   }
   render() {
     return (
@@ -38,21 +26,11 @@ class HomePage extends React.Component {
             all, shouldn't the people control (the atmosphere of) the party?
           </p>
         </div>
-        <input
-          placeholder="Room"
-          className="form-control"
-          value={this.state.room}
-          onChange={this.onInputChange}
-        />
         <Link to="/join">
-          <button id="join" onClick={this.setRoom}>
-            Join
-          </button>
+          <button id="join">Join</button>
         </Link>
         <a href="/api/login">
-          <button id="host" onClick={this.setRoom}>
-            Host
-          </button>
+          <button id="host">Host</button>
         </a>
       </div>
     );

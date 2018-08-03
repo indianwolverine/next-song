@@ -8,7 +8,8 @@ const UserSchema = new Schema({
   refreshToken: String,
   playlistID: String,
   queue: [String],
-  votes: String
+  votes: String,
+  roomName: String
 });
 
 mongoose.model("users", UserSchema);

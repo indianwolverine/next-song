@@ -70,12 +70,12 @@ class SearchBar extends Component {
 
     this.joinRoom = () => {
       this.socket.emit("JOIN_ROOM", {
-        room: "indianwolverine"
+        room: this.props.room
       });
     };
 
-    this.socket.on("ROOM_JOINED", () => {
-      console.log("Joined indianwolverine");
+    this.socket.on("ROOM_JOINED", data => {
+      console.log(data);
     });
   }
 
@@ -109,7 +109,8 @@ class SearchBar extends Component {
 function mapStateToProps(state) {
   return {
     spotify: state.spotify,
-    userID: state.userID
+    userID: state.userID,
+    room: state.room
   };
 }
 

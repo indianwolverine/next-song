@@ -51,7 +51,7 @@ io.on("connection", socket => {
   socket.on("JOIN_ROOM", data => {
     console.log(data.room);
     socket.join(data.room);
-    io.to(data.room).emit("ROOM_JOINED");
+    io.to(data.room).emit("ROOM_JOINED", data.room);
   });
 
   socket.on("SEND_MESSAGE", data => {
