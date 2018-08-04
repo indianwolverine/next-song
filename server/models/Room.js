@@ -6,7 +6,8 @@ const RoomSchema = new Schema({
   name: String,
   password: String,
   queue: [String],
-  votes: String
+  votes: String,
+  playlistID: String
 });
 
 mongoose.model("rooms", RoomSchema);

@@ -14,6 +14,7 @@ class HostPage extends React.Component {
     this.state = {
       room: "",
       password: "",
+      hostRooms: null,
       userID: null,
       user: null
     };
@@ -35,13 +36,34 @@ class HostPage extends React.Component {
       this.setState({ password: e.target.value });
     };
 
-    this.submit = () => {
-      axios.post("/api/createRoom", {
+    this.hostRoom = async () => {
+      const room = await axios.post("/api/createRoom", {
         userID: this.state.userID,
         room: this.state.room,
         password: this.state.password
       });
+      localStorage.setItem("room", JSON.stringify(room.data));
 
+      this.props.history.push("/nextsong");
+    };
+
+    this.renderHostRooms = () => {
+      if (this.state.rooms) {
+        return this.state.rooms.map(room => {
+          return (
+            <div>
+              <h2>{room.name}</h2>
+              <button className={JSON.stringify(room)} onClick={this.joinRoom}>
+                Join Room
+              </button>
+            </div>
+          );
+        });
+      }
+    };
+
+    this.joinRoom = e => {
+      localStorage.setItem("room", e.target.className);
       this.props.history.push("/nextsong");
     };
   }
@@ -54,14 +76,8 @@ class HostPage extends React.Component {
       userID: res.userID
     });
     console.log(user);
-
-    var spotify = new SpotifyWebApi();
-    spotify.setAccessToken(user.data.accessToken);
-    this.props.setSpotifyObject(spotify);
-    this.props.setUser(user.data);
-    this.props.setUserID(user.data.userID);
-    this.props.setPlaylist({ playlist: user.data.playlistID });
     localStorage.setItem("user", JSON.stringify(user.data));
+    this.setState({ rooms: user.data.rooms });
   }
 
   render() {
@@ -80,7 +96,8 @@ class HostPage extends React.Component {
           value={this.state.password}
           onChange={this.onPasswordChange}
         />
-        <button onClick={this.submit}>Host Room</button>
+        <button onClick={this.hostRoom}>Host Room</button>
+        {this.renderHostRooms()}
       </div>
     );
   }

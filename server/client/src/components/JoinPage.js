@@ -29,21 +29,21 @@ class JoinPage extends React.Component {
     };
 
     this.submit = async e => {
-      const host = await axios.post("/api/findRoom", {
+      const res = await axios.post("/api/findRoomAndHost", {
         room: this.state.room,
         password: this.state.password
       });
 
-      console.log(host.data);
+      const room = res.data.room;
+      const host = res.data.user;
 
-      var spotify = new SpotifyWebApi();
-      spotify.setAccessToken(host.data.accessToken);
-      this.props.setSpotifyObject(spotify);
-      this.props.setUser(host.data);
-      this.props.setUserID(host.data.userID);
-      this.props.setPlaylist({ playlist: host.data.playlistID });
-
-      this.props.history.push("/nextsong");
+      if (host && room) {
+        localStorage.setItem("user", JSON.stringify(host));
+        localStorage.setItem("room", JSON.stringify(room));
+        this.props.history.push("/nextsong");
+      } else {
+        alert("Room not found");
+      }
     };
   }
 

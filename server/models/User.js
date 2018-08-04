@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const RoomSchema = require("./Room");
 const { Schema } = mongoose;
 
 const UserSchema = new Schema({
@@ -6,10 +7,7 @@ const UserSchema = new Schema({
   userInfo: String,
   accessToken: String,
   refreshToken: String,
-  playlistID: String,
-  queue: [String],
-  votes: String,
-  roomName: String
+  rooms: [RoomSchema]
 });
 
 mongoose.model("users", UserSchema);

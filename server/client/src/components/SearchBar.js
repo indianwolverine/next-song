@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
-import io from "socket.io-client";
 import * as actions from "../actions";
 
 class SearchBar extends Component {

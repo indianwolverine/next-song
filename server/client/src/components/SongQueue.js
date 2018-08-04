@@ -1,5 +1,4 @@
 import React from "react";
-import io from "socket.io-client";
 import { connect } from "react-redux";
 import * as actions from "../actions";
 import axios from "axios";

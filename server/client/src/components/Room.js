@@ -15,7 +15,7 @@ class Room extends React.Component {
     super(props);
 
     this.state = {
-      room: "",
+      room: null,
       user: null,
       spotify: null
     };
@@ -27,31 +27,26 @@ class Room extends React.Component {
   }
 
   async componentDidMount() {
-    const room = await axios.post("/api/getRoom", {
-      host: this.props.userID
-    });
-    this.setState({ room: room.data.name });
-    this.socket.emit("JOIN_ROOM", {
-      room: room.data.name
-    });
-    this.props.setRoom(room.data);
+    const user = JSON.parse(localStorage.getItem("user"));
+    const room = JSON.parse(localStorage.getItem("room"));
+    console.log(user);
+    console.log(room);
+    this.socket.emit("JOIN_ROOM", { room: room.name });
+    this.setState({ user: user, room: room });
 
-    this.setState({ user: JSON.parse(localStorage.getItem("user")) });
-    console.log(this.state.user);
+    this.props.setRoom(room);
 
     var spotify = new SpotifyWebApi();
-    spotify.setAccessToken(this.state.user.accessToken);
+    spotify.setAccessToken(user.accessToken);
     this.props.setSpotifyObject(spotify);
     this.setState({ spotify: spotify });
-
-    console.log(this.state);
   }
 
   render() {
     return (
       <div className="room">
         <div className="header">
-          <h1>{this.state.room}</h1>
+          <h1>{this.state.room ? this.state.room.name : "No Name"}</h1>
           <Logo />
           <SearchBar
             user={this.state.user}
