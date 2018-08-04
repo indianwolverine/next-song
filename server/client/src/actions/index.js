@@ -24,7 +24,7 @@ export const setUser = user => async dispatch => {
 export const setPlaylist = data => async dispatch => {
   await axios.post("/api/setUserPlaylist", {
     playlist: data.playlist,
-    userID: data.userID
+    room: data.room
   });
 
   dispatch({ type: SET_PLAYLIST, payload: data.playlist });

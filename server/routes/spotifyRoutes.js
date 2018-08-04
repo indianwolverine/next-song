@@ -49,9 +49,9 @@ module.exports = app => {
   });
 
   app.post("/api/setUserPlaylist", async (req, res) => {
-    const user = await User.findOne({ userID: req.body.userID });
-    user.playlistID = req.body.playlist;
-    user.save();
+    const room = await Room.findOne({ name: req.body.room });
+    room.playlistID = req.body.playlist;
+    room.save();
   });
 
   app.post("/api/addToQueue", async (req, res) => {

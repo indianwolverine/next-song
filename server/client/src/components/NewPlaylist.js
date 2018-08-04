@@ -18,7 +18,9 @@ class NewPlaylist extends React.Component {
         '{"name":"Next Song","description":"Next Song Playlist","public":false}';
 
       const options = {
-        url: `https://api.spotify.com/v1/users/${this.props.userID}/playlists`,
+        url: `https://api.spotify.com/v1/users/${
+          this.props.user.userID
+        }/playlists`,
         method: "POST",
         headers: headers,
         data: dataString
@@ -28,7 +30,7 @@ class NewPlaylist extends React.Component {
 
       this.props.setPlaylist({
         playlist: data.data.id,
-        userID: this.props.userID
+        room: this.props.room.name
       });
     };
   }
@@ -43,9 +45,11 @@ class NewPlaylist extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    spotify: state.spotify,
     userID: state.userID,
-    user: state.user
+    user: state.user,
+    spotify: state.spotify,
+    room: state.room,
+    songs: state.songs
   };
 }
 
