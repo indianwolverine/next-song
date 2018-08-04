@@ -43,6 +43,11 @@ module.exports = app => {
     }
   });
 
+  app.post("/api/userRooms", async (req, res) => {
+    const rooms = await Room.find({ host: req.body.userID });
+    res.send(rooms);
+  });
+
   app.post("/api/setUserPlaylist", async (req, res) => {
     const user = await User.findOne({ userID: req.body.userID });
     user.playlistID = req.body.playlist;

@@ -75,9 +75,13 @@ class HostPage extends React.Component {
     const user = await axios.post("/api/getHost", {
       userID: res.userID
     });
-    console.log(user);
+
+    const rooms = await axios.post("/api/userRooms", {
+      userID: res.userID
+    });
+
     localStorage.setItem("user", JSON.stringify(user.data));
-    this.setState({ rooms: user.data.rooms });
+    this.setState({ rooms: rooms.data });
   }
 
   render() {

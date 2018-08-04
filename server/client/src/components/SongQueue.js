@@ -67,25 +67,26 @@ class SongQueue extends React.Component {
       };
 
       var options = {
-        url: `https://api.spotify.com/v1/users/${this.props.userID}/playlists/${
-          this.props.room.playlistID
-        }/tracks?uris=${this.state.nextSong}`,
+        url: `https://api.spotify.com/v1/users/${
+          this.props.user.userID
+        }/playlists/${this.props.room.playlistID}/tracks?uris=${
+          this.state.nextSong
+        }`,
         method: "POST",
         headers: headers
       };
 
       axios(options);
 
-      this.props.socket.emit("RESET_V", { room: this.props.room });
+      this.props.socket.emit("RESET_V", { room: this.props.room.name });
       axios.post("/api/resetVotes", {
-        userID: this.props.userID
+        room: this.props.room.name
       });
 
       this.resetQueue();
     };
 
     this.resetQueue = async () => {
-      console.log(this.props);
       this.props.socket.emit("RESET_Q", { room: this.props.room.name });
       axios.post("/api/resetQueue", {
         room: this.props.room.name
