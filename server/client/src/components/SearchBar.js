@@ -21,7 +21,7 @@ class SearchBar extends Component {
 
     this.search = async e => {
       const data = await this.props.spotify.searchTracks(this.state.term, {
-        limit: 2
+        limit: 3
       });
       this.setState({ tracks: data.tracks.items });
       for (let track of data.tracks.items) {
@@ -68,12 +68,12 @@ class SearchBar extends Component {
       this.props.addSongToQueue(trackData);
       this.props.socket.emit("UPDATE_Q", {
         song: trackData,
-        room: this.props.room
+        room: this.props.room.name
       });
 
       await axios.post("/api/addToQueue", {
         song: trackData,
-        userID: this.props.userID
+        room: this.props.room.name
       });
     };
   }
@@ -104,7 +104,9 @@ class SearchBar extends Component {
 
 function mapStateToProps(state) {
   return {
-    userID: state.userID
+    user: state.user,
+    spotify: state.spotify,
+    room: state.room
   };
 }
 

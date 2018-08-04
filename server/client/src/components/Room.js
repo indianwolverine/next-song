@@ -34,12 +34,15 @@ class Room extends React.Component {
     this.socket.emit("JOIN_ROOM", { room: room.name });
     this.setState({ user: user, room: room });
 
-    this.props.setRoom(room);
-
     var spotify = new SpotifyWebApi();
     spotify.setAccessToken(user.accessToken);
     this.props.setSpotifyObject(spotify);
     this.setState({ spotify: spotify });
+
+    this.props.setRoom(room);
+    this.props.setUser(user);
+    this.props.setUserID(user.userID);
+    this.props.setSpotifyObject(spotify);
   }
 
   render() {
@@ -49,21 +52,21 @@ class Room extends React.Component {
           <h1>{this.state.room ? this.state.room.name : "No Name"}</h1>
           <Logo />
           <SearchBar
-            user={this.state.user}
-            spotify={this.state.spotify}
-            room={this.state.room}
+            // user={this.state.user}
+            // spotify={this.state.spotify}
+            // room={this.state.room}
             socket={this.socket}
           />
           <NewPlaylist
-            user={this.state.user}
-            spotify={this.state.spotify}
-            room={this.state.room}
+          // user={this.state.user}
+          // spotify={this.state.spotify}
+          // room={this.state.room}
           />
         </div>
         <SongQueue
-          user={this.state.user}
-          spotify={this.state.spotify}
-          room={this.state.room}
+          // user={this.state.user}
+          // spotify={this.state.spotify}
+          // room={this.state.room}
           socket={this.socket}
         />
       </div>
@@ -74,7 +77,7 @@ class Room extends React.Component {
 function mapStateToProps(state) {
   return {
     room: state.room,
-    userID: state.userID,
+    user: state.user,
     spotify: state.spotify
   };
 }

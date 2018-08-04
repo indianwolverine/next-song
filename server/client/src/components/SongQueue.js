@@ -14,24 +14,8 @@ class SongQueue extends React.Component {
       user: null
     };
 
-    this.vote = async e => {
-      const track = e.target.className;
-      if (!this.state.songVotes[track]) {
-        this.state.songVotes[track] = 0;
-      }
-      this.state.songVotes[track] += 1;
-
-      this.props.socket.emit("SEND_VOTE", {
-        songs: this.state.songVotes,
-        room: this.props.room
-      });
-      await axios.post("/api/updateVotes", {
-        votes: this.state.songVotes,
-        userID: this.props.userID
-      });
-    };
-
     this.props.socket.on("RECEIVE_VOTE", data => {
+      console.log(data);
       this.setState({ songVotes: data });
     });
 
@@ -46,6 +30,24 @@ class SongQueue extends React.Component {
     this.props.socket.on("RESET_VOTES", () => {
       this.setState({ songVotes: {} });
     });
+
+    this.vote = async e => {
+      const track = e.target.className;
+      if (!this.state.songVotes[track]) {
+        this.state.songVotes[track] = 0;
+      }
+      this.state.songVotes[track] += 1;
+
+      this.props.socket.emit("SEND_VOTE", {
+        songs: this.state.songVotes,
+        room: this.props.room.name
+      });
+
+      await axios.post("/api/updateVotes", {
+        votes: this.state.songVotes,
+        room: this.props.room.name
+      });
+    };
 
     this.addToPlaylist = async () => {
       var nextSong = "";
@@ -66,12 +68,11 @@ class SongQueue extends React.Component {
 
       var options = {
         url: `https://api.spotify.com/v1/users/${this.props.userID}/playlists/${
-          this.props.user.playlistID
+          this.props.room.playlistID
         }/tracks?uris=${this.state.nextSong}`,
         method: "POST",
         headers: headers
       };
-      console.log(this.props.user.playlistID);
 
       axios(options);
 
@@ -84,9 +85,10 @@ class SongQueue extends React.Component {
     };
 
     this.resetQueue = async () => {
-      this.props.socket.emit("RESET_Q", { room: this.props.room });
+      console.log(this.props);
+      this.props.socket.emit("RESET_Q", { room: this.props.room.name });
       axios.post("/api/resetQueue", {
-        userID: this.props.userID
+        room: this.props.room.name
       });
     };
 
@@ -119,14 +121,12 @@ class SongQueue extends React.Component {
     };
   }
 
-  async componentDidMount() {
-    const user = await axios.post("/api/getHost", {
-      userID: this.props.userID
-    });
+  async componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
     this.setState({
-      user: user.data,
-      songs: user.data.queue,
-      songVotes: user.data.votes ? JSON.parse(user.data.votes) : {}
+      user: nextProps.user,
+      songs: nextProps.room.queue,
+      songVotes: nextProps.room.votes ? JSON.parse(nextProps.room.votes) : {}
     });
   }
 
@@ -143,10 +143,10 @@ class SongQueue extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    spotify: state.spotify,
-    user: state.user,
     userID: state.userID,
-    playlistID: state.playlistID,
+    user: state.user,
+    spotify: state.spotify,
+    room: state.room,
     songs: state.songs
   };
 }

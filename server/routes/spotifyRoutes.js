@@ -50,27 +50,27 @@ module.exports = app => {
   });
 
   app.post("/api/addToQueue", async (req, res) => {
-    const user = await User.findOne({ userID: req.body.userID });
-    user.queue.push(JSON.stringify(req.body.song));
-    user.save();
+    const room = await Room.findOne({ name: req.body.room });
+    room.queue.push(JSON.stringify(req.body.song));
+    room.save();
   });
 
   app.post("/api/resetQueue", async (req, res) => {
-    const user = await User.findOne({ userID: req.body.userID });
-    user.queue = [];
-    user.save();
+    const room = await Room.findOne({ name: req.body.room });
+    room.queue = [];
+    room.save();
   });
 
   app.post("/api/updateVotes", async (req, res) => {
-    const user = await User.findOne({ userID: req.body.userID });
-    user.votes = JSON.stringify(req.body.votes);
-    user.save();
+    const room = await Room.findOne({ name: req.body.room });
+    room.votes = JSON.stringify(req.body.votes);
+    room.save();
   });
 
   app.post("/api/resetVotes", async (req, res) => {
-    const user = await User.findOne({ userID: req.body.userID });
-    user.votes = "";
-    user.save();
+    const room = await Room.findOne({ name: req.body.room });
+    room.votes = "";
+    room.save();
   });
 
   app.post("/api/createRoom", async (req, res) => {
