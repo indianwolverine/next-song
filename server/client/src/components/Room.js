@@ -1,12 +1,10 @@
 import React from "react";
 import { connect } from "react-redux";
-import axios from "axios";
 import SpotifyWebApi from "spotify-web-api-js";
 import io from "socket.io-client";
 import Logo from "./Logo";
 import SearchBar from "./SearchBar";
 import NewPlaylist from "./NewPlaylist";
-import Spotify from "./Spotify";
 import SongQueue from "./SongQueue";
 import * as actions from "../actions";
 
@@ -51,24 +49,10 @@ class Room extends React.Component {
         <div className="header">
           <h1>{this.state.room ? this.state.room.name : "No Name"}</h1>
           <Logo />
-          <SearchBar
-            // user={this.state.user}
-            // spotify={this.state.spotify}
-            // room={this.state.room}
-            socket={this.socket}
-          />
-          <NewPlaylist
-          // user={this.state.user}
-          // spotify={this.state.spotify}
-          // room={this.state.room}
-          />
+          <SearchBar socket={this.socket} />
+          <NewPlaylist />
         </div>
-        <SongQueue
-          // user={this.state.user}
-          // spotify={this.state.spotify}
-          // room={this.state.room}
-          socket={this.socket}
-        />
+        <SongQueue socket={this.socket} />
       </div>
     );
   }
