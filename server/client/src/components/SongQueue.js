@@ -50,6 +50,8 @@ class SongQueue extends React.Component {
     };
 
     this.addToPlaylist = async () => {
+      console.log(this.state);
+      console.log(this.props);
       var nextSong = "";
       var maxVotes = 0;
       for (let song in this.state.songVotes) {
@@ -69,7 +71,7 @@ class SongQueue extends React.Component {
       var options = {
         url: `https://api.spotify.com/v1/users/${
           this.props.user.userID
-        }/playlists/${this.props.playlistID}/tracks?uris=${
+        }/playlists/${this.props.room.playlistID}/tracks?uris=${
           this.state.nextSong
         }`,
         method: "POST",
@@ -78,12 +80,15 @@ class SongQueue extends React.Component {
 
       axios(options);
 
+      this.resetVotes();
+      this.resetQueue();
+    };
+
+    this.resetVotes = async () => {
       this.props.socket.emit("RESET_V", { room: this.props.room.name });
       axios.post("/api/resetVotes", {
         room: this.props.room.name
       });
-
-      this.resetQueue();
     };
 
     this.resetQueue = async () => {
