@@ -4,7 +4,6 @@ import Logo from "./Logo";
 import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import qs from "query-string";
-import SpotifyWebApi from "spotify-web-api-js";
 import * as actions from "../actions";
 
 class HostPage extends React.Component {

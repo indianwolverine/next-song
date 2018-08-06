@@ -1,8 +1,6 @@
 import React from "react";
 import Logo from "./Logo";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import SpotifyWebApi from "spotify-web-api-js";
 import axios from "axios";
 import * as actions from "../actions";
 
