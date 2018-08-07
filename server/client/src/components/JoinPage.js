@@ -1,10 +1,9 @@
 import React from "react";
 import Logo from "./Logo";
 import { connect } from "react-redux";
-import { withRouter } from "react-router-dom";
-import SpotifyWebApi from "spotify-web-api-js";
 import axios from "axios";
 import * as actions from "../actions";
+import TextField from "@material-ui/core/TextField";
 
 class JoinPage extends React.Component {
   constructor(props) {
@@ -49,27 +48,39 @@ class JoinPage extends React.Component {
 
   render() {
     return (
-      <div>
-        <Logo />
-        <input
-          placeholder="Room Name"
-          className="form-control"
-          value={this.state.room}
-          onChange={this.onRoomChange}
-        />
-        <input
-          placeholder="Room Password"
-          className="form-control"
-          value={this.state.password}
-          onChange={this.onPasswordChange}
-        />
-        <input
-          placeholder="Create a Username"
-          className="form-control"
-          value={this.state.username}
-          onChange={this.onUserNameChange}
-        />
-        <button onClick={this.submit}>Join Room</button>
+      <div className="wrapper">
+        <div className="gradient">
+          <Logo />
+          <div className="form-before-room">
+            <TextField
+              required
+              id="Room Name"
+              label="Room Name"
+              value={this.state.room}
+              onChange={this.onRoomChange}
+              margin="normal"
+            />
+            <TextField
+              required
+              id="Room Password"
+              label="Room Password"
+              value={this.state.password}
+              onChange={this.onPasswordChange}
+              type="password"
+              margin="normal"
+            />
+            <TextField
+              id="Username"
+              label="Create Username"
+              value={this.state.username}
+              onChange={this.onUserNameChange}
+              margin="normal"
+            />
+            <button className="buttons" onClick={this.submit}>
+              Join Room
+            </button>
+          </div>
+        </div>
       </div>
     );
   }

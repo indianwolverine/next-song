@@ -2,7 +2,6 @@ const express = require("express");
 const socket = require("socket.io");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
-const cookieSession = require("cookie-session");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const keys = require("./config/keys");
@@ -18,12 +17,6 @@ const app = express();
 app
   .use(cors())
   .use(bodyParser.json())
-  // .use(
-  //   cookieSession({
-  //     name: "session",
-  //     keys: [keys.cookieKeys]
-  //   })
-  // )
   .use(cookieParser());
 
 spotifyRoutes(app);

@@ -11,8 +11,7 @@ class HomePage extends React.Component {
   render() {
     return (
       <div className="wrapper">
-        <div id="gradient" />
-        {/*<img id="back" src={Background} alt=""/>*/}
+        <div className="gradient" />
         <Logo />
         <div id="color" />
         <div id="description">
@@ -26,11 +25,11 @@ class HomePage extends React.Component {
             all, shouldn't the people control (the atmosphere of) the party?
           </p>
         </div>
-        <Link to="/join">
-          <button id="join">Join</button>
+        <Link id="join" to="/join">
+          Join a Room
         </Link>
-        <a href="/api/login">
-          <button id="host">Host</button>
+        <a id="host" href="/api/login">
+          Host a Room
         </a>
       </div>
     );
