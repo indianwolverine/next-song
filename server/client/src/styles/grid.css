@@ -10,7 +10,7 @@
   margin: -10px -10px 0px -10px;
 }
 
-#gradient {
+.gradient {
   background: linear-gradient(#a6e3ae, #1065b0);
   grid-column: 1/16;
   grid-row: 1/18;
@@ -20,20 +20,6 @@ a {
   color: white;
   text-decoration: none;
 }
-
-/*#back {
-  grid-column: 1/16;
-  grid-row: 3/13;
-  width: 100%;
-  height: 100%;
-}*/
-
-/* #menu {
-  grid-column: 15;
-  grid-row: 1;
-  background-color: #009BE2;
-  border-radius: 12px;
-} */
 
 #logo {
   grid-column: 7/10;
@@ -69,15 +55,42 @@ a {
   grid-column: 5/8;
   grid-row: 10;
   text-align: center;
-  background-color: #39b54a;
+  background-color: #00417adb;
+  border-radius: 12px;
+  color: rgb(255, 255, 255);
+  font-family: "PT Sans Narrow";
+  text-transform: uppercase;
+  font-size: 32px;
+  padding-top: 0.2em;
+}
+
+#host {
+  grid-column: 9/12;
+  grid-row: 10;
+  text-align: center;
+  background-color: #00417adb;
   border-radius: 12px;
   color: white;
   font-family: "PT Sans Narrow";
   text-transform: uppercase;
-  font-size: 35px;
+  font-size: 32px;
+  padding-top: 0.2em;
 }
 
-#host {
+#join:hover {
+  grid-column: 5/8;
+  grid-row: 10;
+  text-align: center;
+  background-color: #39b54a;
+  border-radius: 12px;
+  color: rgb(255, 255, 255);
+  font-family: "PT Sans Narrow";
+  text-transform: uppercase;
+  font-size: 32px;
+  padding-top: 0.2em;
+}
+
+#host:hover {
   grid-column: 9/12;
   grid-row: 10;
   text-align: center;
@@ -86,5 +99,39 @@ a {
   color: white;
   font-family: "PT Sans Narrow";
   text-transform: uppercase;
-  font-size: 35px;
+  font-size: 32px;
+  padding-top: 0.2em;
+}
+
+.buttons {
+  grid-column: 9/12;
+  grid-row: 10;
+  text-align: center;
+  background-color: #00417adb;
+  border-radius: 12px;
+  color: white;
+  font-family: "PT Sans Narrow";
+  text-transform: uppercase;
+  font-size: 32px;
+  padding-top: 0.2em;
+}
+
+.buttons:hover {
+  grid-column: 9/12;
+  grid-row: 10;
+  text-align: center;
+  background-color: #39b54a;
+  border-radius: 12px;
+  color: white;
+  font-family: "PT Sans Narrow";
+  text-transform: uppercase;
+  font-size: 32px;
+  padding-top: 0.2em;
+}
+
+.form-before-room {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }

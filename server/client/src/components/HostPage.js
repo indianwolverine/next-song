@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import qs from "query-string";
 import * as actions from "../actions";
+import TextField from "@material-ui/core/TextField";
 
 class HostPage extends React.Component {
   constructor(props) {
@@ -85,22 +86,33 @@ class HostPage extends React.Component {
 
   render() {
     return (
-      <div>
-        <Logo />
-        <input
-          placeholder="Room Name"
-          className="form-control"
-          value={this.state.room}
-          onChange={this.onRoomChange}
-        />
-        <input
-          placeholder="Set Room Password"
-          className="form-control"
-          value={this.state.password}
-          onChange={this.onPasswordChange}
-        />
-        <button onClick={this.hostRoom}>Host Room</button>
-        {this.renderHostRooms()}
+      <div className="wrapper">
+        <div className="gradient">
+          <Logo />
+          <div className="form-before-room">
+            <TextField
+              required
+              id="Room Name"
+              label="Room Name"
+              value={this.state.room}
+              onChange={this.onRoomChange}
+              margin="normal"
+            />
+            <TextField
+              required
+              id="Set Password"
+              label="Set Room Password"
+              value={this.state.password}
+              onChange={this.onPasswordChange}
+              type="password"
+              margin="normal"
+            />
+            <button className="buttons" onClick={this.hostRoom}>
+              Host Room
+            </button>
+            {this.renderHostRooms()}
+          </div>
+        </div>
       </div>
     );
   }
