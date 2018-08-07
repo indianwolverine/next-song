@@ -1,0 +1,3 @@
+green:  #39b54a
+light blue: #009BE2
+navy: #00417a
