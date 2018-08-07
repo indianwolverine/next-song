@@ -11,10 +11,11 @@
 }
 
 #gradient {
-  background: linear-gradient(white, #00417a);
+  background: linear-gradient(#a6e3ae, #1065b0);
   grid-column: 1/16;
-  grid-row: 1/13;
+  grid-row: 1/18;
 }
+
 a {
   color: white;
   text-decoration: none;
@@ -43,7 +44,7 @@ a {
 #color {
   grid-column: 4/13;
   grid-row: 5/12;
-  background-color: slategrey;
+  background-color: rgba(172, 179, 186, 0.6);
   border-radius: 12px;
 }
 
