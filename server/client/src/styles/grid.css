@@ -148,6 +148,10 @@ a {
   padding-top: 0.2em;
 }
 
+.form-button {
+  margin-top: 2.25%;
+}
+
 .form-before-room {
   display: flex;
   justify-content: center;

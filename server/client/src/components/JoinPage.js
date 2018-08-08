@@ -78,7 +78,7 @@ class JoinPage extends React.Component {
               onChange={this.onUserNameChange}
               margin="normal"
             /> */}
-            <button className="buttons" onClick={this.submit}>
+            <button className="buttons form-button" onClick={this.submit}>
               Join Room
             </button>
           </div>

@@ -54,7 +54,11 @@ class HostPage extends React.Component {
           return (
             <div>
               <h2>{room.name}</h2>
-              <button id={JSON.stringify(room)} className="buttons" onClick={this.joinRoom}>
+              <button
+                id={JSON.stringify(room)}
+                className="buttons"
+                onClick={this.joinRoom}
+              >
                 Join Room
               </button>
             </div>
@@ -110,7 +114,7 @@ class HostPage extends React.Component {
               type="password"
               margin="normal"
             />
-            <button className="buttons" onClick={this.hostRoom}>
+            <button className="buttons form-button" onClick={this.hostRoom}>
               Host Room
             </button>
             {this.renderHostRooms()}
