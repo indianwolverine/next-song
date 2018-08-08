@@ -21,13 +21,17 @@
   grid-column: 1/16;
   grid-row: 1/2;
   justify-content: space-around;
-  font-size: 40px;
+  font-size: 35px;
   font-family: "PT Sans Narrow";
-  font-size: 40px;
   font-weight: 267;
   line-height: 40px;
   letter-spacing: 3px;
   padding-top: 1%;
+}
+
+.tracks {
+  display: flex;
+  justify-content: flex-start;
 }
 
 a {
@@ -71,7 +75,7 @@ a {
   text-align: center;
   background-color: #00417adb;
   border-radius: 12px;
-  color: rgb(255, 255, 255);
+  color: white;
   font-family: "PT Sans Narrow";
   text-transform: uppercase;
   font-size: 32px;
@@ -97,7 +101,7 @@ a {
   text-align: center;
   background-color: #39b54a;
   border-radius: 12px;
-  color: rgb(255, 255, 255);
+  color: white;
   font-family: "PT Sans Narrow";
   text-transform: uppercase;
   font-size: 32px;
@@ -126,8 +130,9 @@ a {
   color: white;
   font-family: "PT Sans Narrow";
   text-transform: uppercase;
-  font-size: 32px;
+  font-size: 20px;
   padding-top: 0.2em;
+  border-color: transparent;
 }
 
 .buttons:hover {
@@ -139,7 +144,7 @@ a {
   color: white;
   font-family: "PT Sans Narrow";
   text-transform: uppercase;
-  font-size: 32px;
+  font-size: 20px;
   padding-top: 0.2em;
 }
 

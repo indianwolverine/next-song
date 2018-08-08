@@ -54,7 +54,7 @@ class HostPage extends React.Component {
           return (
             <div>
               <h2>{room.name}</h2>
-              <button className={JSON.stringify(room)} onClick={this.joinRoom}>
+              <button id={JSON.stringify(room)} className="buttons" onClick={this.joinRoom}>
                 Join Room
               </button>
             </div>
@@ -64,7 +64,7 @@ class HostPage extends React.Component {
     };
 
     this.joinRoom = e => {
-      localStorage.setItem("room", e.target.className);
+      localStorage.setItem("room", e.target.id);
       this.props.history.push("/nextsong");
     };
   }

@@ -49,12 +49,12 @@ class Room extends React.Component {
       <div className="wrapper">
         <div className="gradient">
           <NavBar />
+          <h1>{this.state.room ? this.state.room.name : "No Name"}</h1>
           <div className="room">
             <div className="header">
-              <h1>{this.state.room ? this.state.room.name : "No Name"}</h1>
               <Logo />
               <SearchBar socket={this.socket} />
-              <NewPlaylist />
+              {/* <NewPlaylist /> */}
             </div>
             <SongQueue socket={this.socket} />
           </div>

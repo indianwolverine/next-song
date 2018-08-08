@@ -2,6 +2,11 @@ import React, { Component } from "react";
 import axios from "axios";
 import { connect } from "react-redux";
 import * as actions from "../actions";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import Divider from "@material-ui/core/Divider";
+import TextField from "@material-ui/core/TextField";
 
 class SearchBar extends Component {
   constructor(props) {
@@ -44,18 +49,27 @@ class SearchBar extends Component {
       if (this.state.tracks) {
         return this.state.tracks.map(track => {
           return (
-            <div key={track.uri} className="tracks">
-              <img
-                src={track.album.images[1].url}
-                height="265"
-                width="300"
-                alt={track.name}
-              />
-              <p className="title">{track.name}</p>
-              <p className="artist">{track.artists[0].name}</p>
-              <button className={track.uri} onClick={this.addToQueue}>
-                Add To Queue
-              </button>
+            <div key={track.uri}>
+              <ListItem>
+                <img
+                  src={track.album.images[2].url}
+                  height="64"
+                  width="64"
+                  alt={track.name}
+                />
+                <ListItemText
+                  primary={track.name}
+                  secondary={track.artists[0].name}
+                />
+                <button
+                  id={track.uri}
+                  className="buttons"
+                  onClick={this.addToQueue}
+                >
+                  +
+                </button>
+              </ListItem>
+              <Divider />
             </div>
           );
         });
@@ -63,7 +77,7 @@ class SearchBar extends Component {
     };
 
     this.addToQueue = async e => {
-      const track = e.target.className;
+      const track = e.target.id;
       const trackData = this.state.trackInfo[track];
       this.props.addSongToQueue(trackData);
       this.props.socket.emit("UPDATE_Q", {
@@ -79,26 +93,19 @@ class SearchBar extends Component {
   }
 
   render() {
-    return (
-      <div>
-        <input
-          placeholder="Search for your favorite artists, albums, tracks, or playlists."
-          className="form-control"
-          value={this.state.term}
-          onChange={this.onInputChange}
-        />
+    return <div>
+        <TextField id="Search for your favorite songs" label="Search for your favorite songs" value={this.state.term} onChange={this.onInputChange} margin="normal" />
         <span className="input-group-btn">
-          <button onClick={this.search} className="btn btn-secondary">
+          <button onClick={this.search} className="btn btn-secondary buttons">
             Search
           </button>
-          <hr />
-          <button onClick={this.togglePlayback} className="btn btn-secondary">
+          <button onClick={this.togglePlayback} className="btn btn-secondary buttons">
             Play/Pause
           </button>
-          {this.renderTracks()}
+          <h3>Search Results</h3>
+          <List className="tracks">{this.renderTracks()}</List>
         </span>
-      </div>
-    );
+      </div>;
   }
 }
 

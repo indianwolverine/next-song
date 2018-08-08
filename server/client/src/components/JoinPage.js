@@ -24,9 +24,9 @@ class JoinPage extends React.Component {
       this.setState({ password: e.target.value });
     };
 
-    this.onUserNameChange = e => {
-      this.setState({ username: e.target.value });
-    };
+    // this.onUserNameChange = e => {
+    //   this.setState({ username: e.target.value });
+    // };
 
     this.submit = async e => {
       const res = await axios.post("/api/findRoomAndHost", {
@@ -52,7 +52,6 @@ class JoinPage extends React.Component {
       <div className="wrapper">
         <div className="gradient">
           <NavBar />
-
           <Logo />
           <div className="form-before-room">
             <TextField
@@ -72,13 +71,13 @@ class JoinPage extends React.Component {
               type="password"
               margin="normal"
             />
-            <TextField
+            {/* <TextField
               id="Username"
               label="Create Username"
               value={this.state.username}
               onChange={this.onUserNameChange}
               margin="normal"
-            />
+            /> */}
             <button className="buttons" onClick={this.submit}>
               Join Room
             </button>

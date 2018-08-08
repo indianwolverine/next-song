@@ -7,7 +7,7 @@ class NavBar extends React.Component {
     return (
       <div className="nav">
         <div className="title">
-          <Link to="/">Next Song</Link>
+          <Link to="/">next song</Link>
         </div>
         <div className="github">
           <a

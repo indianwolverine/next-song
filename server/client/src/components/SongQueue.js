@@ -2,6 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import * as actions from "../actions";
 import axios from "axios";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import Divider from "@material-ui/core/Divider";
 
 class SongQueue extends React.Component {
   constructor(props) {
@@ -32,7 +36,7 @@ class SongQueue extends React.Component {
     });
 
     this.vote = async e => {
-      const track = e.target.className;
+      const track = e.target.id;
       if (!this.state.songVotes[track]) {
         this.state.songVotes[track] = 0;
       }
@@ -107,19 +111,24 @@ class SongQueue extends React.Component {
           }
 
           return (
-            <div key={track.uri} className="tracks">
-              <img
-                src={track.album.images[1].url}
-                height="265"
-                width="300"
-                alt={track.name}
-              />
-              <p className="title">{track.name}</p>
-              <p className="artist">{track.artists[0].name}</p>
-              <p>{this.state.songVotes[track.uri]}</p>
-              <button className={track.uri} onClick={this.vote}>
-                Vote
-              </button>
+            <div key={track.uri}>
+              <ListItem>
+                <img
+                  src={track.album.images[2].url}
+                  height="64"
+                  width="64"
+                  alt={track.name}
+                />
+                <ListItemText
+                  primary={track.name}
+                  secondary={track.artists[0].name}
+                />
+                <ListItemText primary={this.state.songVotes[track.uri]} />
+                <button id={track.uri} className="buttons" onClick={this.vote}>
+                  Vote
+                </button>
+              </ListItem>
+              <Divider />
             </div>
           );
         });
@@ -139,9 +148,14 @@ class SongQueue extends React.Component {
   render() {
     return (
       <div>
-        {this.renderQueue()}
-        <button onClick={this.addToPlaylist}>Add Next Song to Playlist</button>
-        <button onClick={this.resetQueue}>Reset Queue</button>
+        <h3>Song Queue</h3>
+        <List className="tracks">{this.renderQueue()}</List>
+        <button className="buttons" onClick={this.addToPlaylist}>
+          Add Next Song to Playlist
+        </button>
+        <button className="buttons" onClick={this.resetQueue}>
+          Reset Queue
+        </button>
       </div>
     );
   }
