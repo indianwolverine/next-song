@@ -16,27 +16,41 @@
   grid-row: 1/18;
 }
 
+.nav {
+  display: flex;
+  grid-column: 1/16;
+  grid-row: 1/2;
+  justify-content: space-around;
+  font-size: 40px;
+  font-family: "PT Sans Narrow";
+  font-size: 40px;
+  font-weight: 267;
+  line-height: 40px;
+  letter-spacing: 3px;
+  padding-top: 1%;
+}
+
 a {
-  color: white;
+  color: #00417a;
   text-decoration: none;
 }
 
 #logo {
   grid-column: 7/10;
-  grid-row: 1;
+  grid-row: 2;
   text-align: center;
 }
 
 #color {
   grid-column: 4/13;
-  grid-row: 5/12;
+  grid-row: 6/13;
   background-color: rgba(172, 179, 186, 0.6);
   border-radius: 12px;
 }
 
 #description {
   grid-column: 5/12;
-  grid-row: 5/12;
+  grid-row: 6/13;
   text-align: center;
 }
 
@@ -53,7 +67,7 @@ a {
 
 #join {
   grid-column: 5/8;
-  grid-row: 10;
+  grid-row: 11;
   text-align: center;
   background-color: #00417adb;
   border-radius: 12px;
@@ -66,7 +80,7 @@ a {
 
 #host {
   grid-column: 9/12;
-  grid-row: 10;
+  grid-row: 11;
   text-align: center;
   background-color: #00417adb;
   border-radius: 12px;
@@ -79,7 +93,7 @@ a {
 
 #join:hover {
   grid-column: 5/8;
-  grid-row: 10;
+  grid-row: 11;
   text-align: center;
   background-color: #39b54a;
   border-radius: 12px;
@@ -92,7 +106,7 @@ a {
 
 #host:hover {
   grid-column: 9/12;
-  grid-row: 10;
+  grid-row: 11;
   text-align: center;
   background-color: #39b54a;
   border-radius: 12px;

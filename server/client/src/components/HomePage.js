@@ -3,6 +3,7 @@ import Logo from "./Logo";
 import * as actions from "../actions";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import NavBar from "./NavBar";
 
 class HomePage extends React.Component {
   constructor(props) {
@@ -12,6 +13,7 @@ class HomePage extends React.Component {
     return (
       <div className="wrapper">
         <div className="gradient" />
+        <NavBar />
         <Logo />
         <div id="color" />
         <div id="description">

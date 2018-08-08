@@ -5,6 +5,7 @@ import { connect } from "react-redux";
 import { withRouter } from "react-router-dom";
 import qs from "query-string";
 import * as actions from "../actions";
+import NavBar from "./NavBar";
 import TextField from "@material-ui/core/TextField";
 
 class HostPage extends React.Component {
@@ -88,6 +89,8 @@ class HostPage extends React.Component {
     return (
       <div className="wrapper">
         <div className="gradient">
+          <NavBar />
+
           <Logo />
           <div className="form-before-room">
             <TextField

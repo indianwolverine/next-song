@@ -6,6 +6,7 @@ import Logo from "./Logo";
 import SearchBar from "./SearchBar";
 import NewPlaylist from "./NewPlaylist";
 import SongQueue from "./SongQueue";
+import NavBar from "./NavBar";
 import * as actions from "../actions";
 
 class Room extends React.Component {
@@ -47,6 +48,7 @@ class Room extends React.Component {
     return (
       <div className="wrapper">
         <div className="gradient">
+          <NavBar />
           <div className="room">
             <div className="header">
               <h1>{this.state.room ? this.state.room.name : "No Name"}</h1>
