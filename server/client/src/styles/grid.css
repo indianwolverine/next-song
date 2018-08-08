@@ -16,6 +16,20 @@
   grid-row: 1/18;
 }
 
+.header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.room {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
 .nav {
   display: flex;
   grid-column: 1/16;
