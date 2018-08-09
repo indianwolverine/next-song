@@ -4,6 +4,7 @@ import * as actions from "../actions";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import NavBar from "./NavBar";
+import Footer from "./Footer";
 
 class HomePage extends React.Component {
   constructor(props) {
@@ -33,6 +34,7 @@ class HomePage extends React.Component {
         <a id="host" href="/api/login">
           Host a Room
         </a>
+        <Footer />
       </div>
     );
   }
