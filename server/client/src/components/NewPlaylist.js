@@ -2,6 +2,7 @@ import React from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import * as actions from "../actions";
+import NextSong from "../assets/next-song-logo.png";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -49,6 +50,7 @@ class NewPlaylist extends React.Component {
       });
 
       this.setState({ playlistName: "", playlistDescription: "" });
+      this.props.playlistSet();
     };
 
     this.onNameChange = e => {
@@ -70,17 +72,27 @@ class NewPlaylist extends React.Component {
     };
 
     this.renderPlaylists = () => {
+      console.log(this.props.playlists);
       if (this.props.playlists) {
         return this.props.playlists.map(playlist => {
           return (
             <div key={playlist.id}>
               <ListItem>
-                <img
-                  src={playlist.images[0].url}
-                  height="64"
-                  width="64"
-                  alt={playlist.name}
-                />
+                {playlist.images[0] ? (
+                  <img
+                    src={playlist.images[0].url}
+                    height="64"
+                    width="64"
+                    alt={playlist.name}
+                  />
+                ) : (
+                  <img
+                    src={NextSong}
+                    height="64"
+                    width="80"
+                    alt={playlist.name}
+                  />
+                )}
                 <ListItemText primary={playlist.name} />
                 <button
                   id={playlist.id}

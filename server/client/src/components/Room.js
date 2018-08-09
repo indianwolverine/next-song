@@ -18,7 +18,6 @@ class Room extends React.Component {
       user: null,
       spotify: null,
       playlistChosen: false,
-      voted: false,
       host: false
     };
 

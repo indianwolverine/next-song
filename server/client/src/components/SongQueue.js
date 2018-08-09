@@ -15,7 +15,8 @@ class SongQueue extends React.Component {
       songs: [],
       songVotes: {},
       nextSong: "",
-      user: null
+      user: null,
+      voted: false
     };
 
     this.props.socket.on("RECEIVE_VOTE", data => {
@@ -32,25 +33,30 @@ class SongQueue extends React.Component {
     });
 
     this.props.socket.on("RESET_VOTES", () => {
-      this.setState({ songVotes: {} });
+      this.setState({ songVotes: {}, voted: false });
     });
 
     this.vote = async e => {
-      const track = e.target.id;
-      if (!this.state.songVotes[track]) {
-        this.state.songVotes[track] = 0;
+      console.log(this.state);
+      if (!this.state.voted) {
+        const track = e.target.id;
+        if (!this.state.songVotes[track]) {
+          this.state.songVotes[track] = 0;
+        }
+        this.state.songVotes[track] += 1;
+
+        this.props.socket.emit("SEND_VOTE", {
+          songs: this.state.songVotes,
+          room: this.props.room.name
+        });
+
+        this.setState({ voted: true });
+
+        await axios.post("/api/updateVotes", {
+          votes: this.state.songVotes,
+          room: this.props.room.name
+        });
       }
-      this.state.songVotes[track] += 1;
-
-      this.props.socket.emit("SEND_VOTE", {
-        songs: this.state.songVotes,
-        room: this.props.room.name
-      });
-
-      await axios.post("/api/updateVotes", {
-        votes: this.state.songVotes,
-        room: this.props.room.name
-      });
     };
 
     this.addToPlaylist = async () => {
