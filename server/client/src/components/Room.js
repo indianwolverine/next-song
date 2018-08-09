@@ -16,13 +16,20 @@ class Room extends React.Component {
     this.state = {
       room: null,
       user: null,
-      spotify: null
+      spotify: null,
+      playlistChosen: false,
+      voted: false,
+      host: false
     };
 
     this.socket = io("http://localhost:8888"); // or use ngrok
     this.socket.on("ROOM_JOINED", data => {
       console.log(data);
     });
+
+    this.playlistSet = () => {
+      this.setState({ playlistChosen: true });
+    };
   }
 
   async componentDidMount() {
@@ -42,6 +49,13 @@ class Room extends React.Component {
     this.props.setUser(user);
     this.props.setUserID(user.userID);
     this.props.setSpotifyObject(spotify);
+
+    const playlists = await spotify.getUserPlaylists(user.userID, {
+      limit: 3
+    });
+    this.props.setUserPlaylists(playlists.items);
+    const data = JSON.parse(localStorage.getItem("host"));
+    this.setState({ host: data.host });
   }
 
   render() {
@@ -59,10 +73,16 @@ class Room extends React.Component {
                   : "No Name"}
               </h1>
               <Logo />
-              <SearchBar socket={this.socket} />
-              {/* <NewPlaylist /> */}
+
+              {!this.state.host || this.state.playlistChosen ? (
+                <div>
+                  <SearchBar socket={this.socket} />
+                  <SongQueue socket={this.socket} host={this.state.host} />
+                </div>
+              ) : (
+                <NewPlaylist playlistSet={this.playlistSet} />
+              )}
             </div>
-            <SongQueue socket={this.socket} />
           </div>
         </div>
       </div>

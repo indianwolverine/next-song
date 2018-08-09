@@ -6,7 +6,8 @@ import {
   SET_USER,
   SET_PLAYLIST,
   ADD_SONG_TO_QUEUE,
-  SET_ROOM
+  SET_ROOM,
+  SET_USER_PLAYLISTS
 } from "./types";
 
 export const setSpotifyObject = spotify => async dispatch => {
@@ -22,12 +23,16 @@ export const setUser = user => async dispatch => {
 };
 
 export const setPlaylist = data => async dispatch => {
-  await axios.post("/api/setUserPlaylist", {
+  dispatch({ type: SET_PLAYLIST, payload: data.playlist });
+
+  await axios.post("/api/setRoomPlaylist", {
     playlist: data.playlist,
     room: data.room
   });
+};
 
-  dispatch({ type: SET_PLAYLIST, payload: data.playlist });
+export const setUserPlaylists = playlists => async dispatch => {
+  dispatch({ type: SET_USER_PLAYLISTS, payload: playlists });
 };
 
 export const addSongToQueue = song => async dispatch => {

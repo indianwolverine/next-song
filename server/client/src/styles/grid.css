@@ -53,6 +53,10 @@ a {
   text-decoration: none;
 }
 
+h1 {
+  font-family: "PT Sans Narrow";
+}
+
 #logo {
   grid-column: 7/10;
   grid-row: 2;

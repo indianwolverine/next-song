@@ -75,7 +75,7 @@ class SongQueue extends React.Component {
       var options = {
         url: `https://api.spotify.com/v1/users/${
           this.props.user.userID
-        }/playlists/${this.props.room.playlistID}/tracks?uris=${
+        }/playlists/${this.props.playlistID}/tracks?uris=${
           this.state.nextSong
         }`,
         method: "POST",
@@ -145,17 +145,27 @@ class SongQueue extends React.Component {
     });
   }
 
+  componentDidMount() {
+    console.log(this.props);
+  }
+
   render() {
     return (
       <div>
         <h3>Song Queue</h3>
         <List className="tracks">{this.renderQueue()}</List>
-        <button className="buttons" onClick={this.addToPlaylist}>
-          Add Next Song to Playlist
-        </button>
-        <button className="buttons" onClick={this.resetQueue}>
-          Reset Queue
-        </button>
+        {this.props.host ? (
+          <div>
+            <button className="buttons" onClick={this.addToPlaylist}>
+              Add Next Song to Playlist
+            </button>
+            <button className="buttons" onClick={this.resetQueue}>
+              Reset Queue
+            </button>
+          </div>
+        ) : (
+          ""
+        )}
       </div>
     );
   }

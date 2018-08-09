@@ -86,6 +86,7 @@ class HostPage extends React.Component {
     });
 
     localStorage.setItem("user", JSON.stringify(user.data));
+    localStorage.setItem("host", JSON.stringify({ host: true }));
     this.setState({ rooms: rooms.data });
   }
 

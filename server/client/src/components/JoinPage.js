@@ -40,6 +40,8 @@ class JoinPage extends React.Component {
       if (host && room) {
         localStorage.setItem("user", JSON.stringify(host));
         localStorage.setItem("room", JSON.stringify(room));
+        localStorage.setItem("host", JSON.stringify({ host: false }));
+
         this.props.history.push("/nextsong");
       } else {
         alert("Room not found");

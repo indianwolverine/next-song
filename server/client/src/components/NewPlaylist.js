@@ -2,6 +2,10 @@ import React from "react";
 import { connect } from "react-redux";
 import axios from "axios";
 import * as actions from "../actions";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import Divider from "@material-ui/core/Divider";
 import TextField from "@material-ui/core/TextField";
 
 class NewPlaylist extends React.Component {
@@ -10,7 +14,8 @@ class NewPlaylist extends React.Component {
 
     this.state = {
       playlistName: "",
-      playlistDescription: ""
+      playlistDescription: "",
+      playlists: null
     };
 
     this.createPlaylist = async () => {
@@ -53,7 +58,46 @@ class NewPlaylist extends React.Component {
     this.onDescriptionChange = e => {
       this.setState({ playlistDescription: e.target.value });
     };
+
+    this.setPlaylist = e => {
+      const playlist = e.target.id;
+      this.props.setPlaylist({
+        playlist: playlist,
+        room: this.props.room.name
+      });
+
+      this.props.playlistSet();
+    };
+
+    this.renderPlaylists = () => {
+      if (this.props.playlists) {
+        return this.props.playlists.map(playlist => {
+          return (
+            <div key={playlist.id}>
+              <ListItem>
+                <img
+                  src={playlist.images[0].url}
+                  height="64"
+                  width="64"
+                  alt={playlist.name}
+                />
+                <ListItemText primary={playlist.name} />
+                <button
+                  id={playlist.id}
+                  className="buttons"
+                  onClick={this.setPlaylist}
+                >
+                  Set Playlist
+                </button>
+              </ListItem>
+              <Divider />
+            </div>
+          );
+        });
+      }
+    };
   }
+
   render() {
     return (
       <div>
@@ -74,9 +118,12 @@ class NewPlaylist extends React.Component {
             onChange={this.onDescriptionChange}
             margin="normal"
           />
-          <button className="buttons" onClick={this.createPlaylist}>
+          <button className="buttons form-button" onClick={this.createPlaylist}>
             Create Playlist
           </button>
+          <div className="playlists">
+            <List>{this.renderPlaylists()}</List>
+          </div>
         </div>
       </div>
     );
@@ -89,7 +136,8 @@ function mapStateToProps(state) {
     user: state.user,
     spotify: state.spotify,
     room: state.room,
-    songs: state.songs
+    songs: state.songs,
+    playlists: state.playlists
   };
 }
 

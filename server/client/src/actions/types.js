@@ -9,3 +9,5 @@ export const SET_PLAYLIST = "SET_PLAYLIST";
 export const ADD_SONG_TO_QUEUE = "ADD_SONG_TO_QUEUE";
 
 export const SET_ROOM = "SET_ROOM";
+
+export const SET_USER_PLAYLISTS = "SET_USER_PLAYLISTS";

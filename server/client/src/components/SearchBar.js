@@ -93,19 +93,28 @@ class SearchBar extends Component {
   }
 
   render() {
-    return <div>
-        <TextField id="Search for your favorite songs" label="Search for your favorite songs" value={this.state.term} onChange={this.onInputChange} margin="normal" />
+    return (
+      <div>
+        <TextField
+          id="Search for your favorite songs"
+          label="Search for your favorite songs"
+          value={this.state.term}
+          onChange={this.onInputChange}
+          margin="normal"
+          fullWidth
+        />
         <span className="input-group-btn">
           <button onClick={this.search} className="btn btn-secondary buttons">
             Search
           </button>
-          <button onClick={this.togglePlayback} className="btn btn-secondary buttons">
+          {/* <button onClick={this.togglePlayback} className="btn btn-secondary buttons">
             Play/Pause
-          </button>
+          </button> */}
           <h3>Search Results</h3>
           <List className="tracks">{this.renderTracks()}</List>
         </span>
-      </div>;
+      </div>
+    );
   }
 }
 
