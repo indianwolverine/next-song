@@ -180,6 +180,7 @@ module.exports = app => {
             }
 
             res.redirect(
+              // "http://next-song.herokuapp.com/host/"
               "http://localhost:3000/host/" +
                 querystring.stringify({
                   // accessToken: access_token,

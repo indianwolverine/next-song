@@ -36,6 +36,7 @@ export const setUserPlaylists = playlists => async dispatch => {
 };
 
 export const addSongToQueue = song => async dispatch => {
+  console.log(song);
   dispatch({ type: ADD_SONG_TO_QUEUE, payload: song });
 };
 

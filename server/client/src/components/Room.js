@@ -21,7 +21,7 @@ class Room extends React.Component {
       host: false
     };
 
-    this.socket = io("http://localhost:8888"); // or use ngrok
+    this.socket = io("http://localhost:8888"); // "http://next-song.herokuapp.com/"
     this.socket.on("ROOM_JOINED", data => {
       console.log(data);
     });

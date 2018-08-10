@@ -89,7 +89,7 @@ class NewPlaylist extends React.Component {
                   <img
                     src={NextSong}
                     height="64"
-                    width="80"
+                    width="90"
                     alt={playlist.name}
                   />
                 )}
