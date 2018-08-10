@@ -25,7 +25,9 @@ class SongQueue extends React.Component {
     });
 
     this.props.socket.on("UPDATE_QUEUE", data => {
-      this.setState({ songs: [...this.state.songs, data.song] });
+      console.log(this.state);
+      console.log(this.props);
+      this.setState({ songs: [...this.props.room.queue, ...this.props.songs] });
     });
 
     this.props.socket.on("RESET_QUEUE", () => {
@@ -109,7 +111,8 @@ class SongQueue extends React.Component {
     };
 
     this.renderQueue = () => {
-      console.log(this.state.songs);
+      console.log(this.state);
+      console.log(this.props);
       if (this.state.songs) {
         return this.state.songs.map(track => {
           if (typeof track === "string") {
@@ -142,17 +145,8 @@ class SongQueue extends React.Component {
     };
   }
 
-  async componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
-    this.setState({
-      user: nextProps.user,
-      songs: nextProps.room.queue,
-      songVotes: nextProps.room.votes ? JSON.parse(nextProps.room.votes) : {}
-    });
-  }
-
   componentDidMount() {
-    console.log(this.props);
+    this.setState({ songs: this.props.room.queue });
   }
 
   render() {
