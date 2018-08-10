@@ -27,7 +27,8 @@ class SongQueue extends React.Component {
     this.props.socket.on("UPDATE_QUEUE", data => {
       console.log(this.state);
       console.log(this.props);
-      this.setState({ songs: [...this.props.room.queue, ...this.props.songs] });
+      this.props.addSongToQueue(data.song);
+      // this.setState({ songs: [...this.props.room.queue, ...this.props.songs] });
     });
 
     this.props.socket.on("RESET_QUEUE", () => {
@@ -147,6 +148,11 @@ class SongQueue extends React.Component {
 
   componentDidMount() {
     this.setState({ songs: this.props.room.queue });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    this.setState({ songs: [...nextProps.room.queue, ...nextProps.songs] });
   }
 
   render() {

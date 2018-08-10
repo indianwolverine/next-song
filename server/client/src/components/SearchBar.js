@@ -79,7 +79,6 @@ class SearchBar extends Component {
     this.addToQueue = async e => {
       const track = e.target.id;
       const trackData = this.state.trackInfo[track];
-      this.props.addSongToQueue(trackData);
       this.props.socket.emit("UPDATE_Q", {
         song: trackData,
         room: this.props.room.name
