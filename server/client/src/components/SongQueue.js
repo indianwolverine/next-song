@@ -41,6 +41,10 @@ class SongQueue extends React.Component {
 
     this.vote = async e => {
       console.log(this.state);
+      if (typeof this.state.songVotes === "string") {
+        this.state.songVotes = JSON.parse(this.state.songVotes);
+      }
+
       if (!this.state.voted) {
         const track = e.target.id;
         if (!this.state.songVotes[track]) {
@@ -120,6 +124,10 @@ class SongQueue extends React.Component {
             track = JSON.parse(track);
           }
 
+          if (typeof this.state.songVotes === "string") {
+            this.state.songVotes = JSON.parse(this.state.songVotes);
+          }
+
           return (
             <div key={track.uri}>
               <ListItem>
@@ -152,7 +160,10 @@ class SongQueue extends React.Component {
 
   componentWillReceiveProps(nextProps) {
     console.log(nextProps);
-    this.setState({ songs: [...nextProps.room.queue, ...nextProps.songs] });
+    this.setState({
+      songs: [...nextProps.room.queue, ...nextProps.songs],
+      songVotes: nextProps.room.votes
+    });
   }
 
   render() {
