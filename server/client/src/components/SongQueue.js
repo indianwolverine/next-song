@@ -155,7 +155,10 @@ class SongQueue extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ songs: this.props.room.queue });
+    this.setState({
+      songs: this.props.room.queue,
+      songVotes: this.props.room.votes
+    });
   }
 
   componentWillReceiveProps(nextProps) {
