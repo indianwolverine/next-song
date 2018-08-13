@@ -15,6 +15,7 @@
   background: linear-gradient(#a6e3ae, #1065b0);
   grid-column: 1/16;
   grid-row: 1/18;
+  grid-auto-rows: auto;
 }
 
 .header {
@@ -60,7 +61,8 @@
 
 .tracks {
   display: flex;
-  justify-content: flex-start;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 a {
@@ -70,6 +72,12 @@ a {
 
 h1 {
   font-family: "PT Sans Narrow";
+}
+
+h3 {
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 #logo {

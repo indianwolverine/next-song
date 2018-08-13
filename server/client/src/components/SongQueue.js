@@ -115,7 +115,6 @@ class SongQueue extends React.Component {
       console.log(this.state);
       console.log(this.props);
       if (this.state.songs) {
-        // implement deduplication logic here
         const songs = this.state.songs.filter(this.unique);
         console.log(songs);
         return songs.map(track => {
