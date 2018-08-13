@@ -15,7 +15,6 @@
   background: linear-gradient(#a6e3ae, #1065b0);
   grid-column: 1/16;
   grid-row: 1/18;
-  grid-auto-rows: auto;
 }
 
 .header {
