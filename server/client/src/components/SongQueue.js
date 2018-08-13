@@ -20,7 +20,6 @@ class SongQueue extends React.Component {
     };
 
     this.props.socket.on("RECEIVE_VOTE", data => {
-      console.log(data);
       this.setState({ songVotes: data });
     });
 
@@ -40,11 +39,6 @@ class SongQueue extends React.Component {
     });
 
     this.vote = async e => {
-      console.log(this.state);
-      if (typeof this.state.songVotes === "string") {
-        this.state.songVotes = JSON.parse(this.state.songVotes);
-      }
-
       if (!this.state.voted) {
         const track = e.target.id;
         if (!this.state.songVotes[track]) {
@@ -67,8 +61,6 @@ class SongQueue extends React.Component {
     };
 
     this.addToPlaylist = async () => {
-      console.log(this.state);
-      console.log(this.props);
       var nextSong = "";
       var maxVotes = 0;
       for (let song in this.state.songVotes) {
@@ -119,13 +111,11 @@ class SongQueue extends React.Component {
       console.log(this.state);
       console.log(this.props);
       if (this.state.songs) {
+        // implement deduplication logic here
+
         return this.state.songs.map(track => {
           if (typeof track === "string") {
             track = JSON.parse(track);
-          }
-
-          if (typeof this.state.songVotes === "string") {
-            this.state.songVotes = JSON.parse(this.state.songVotes);
           }
 
           return (
@@ -157,7 +147,7 @@ class SongQueue extends React.Component {
   componentDidMount() {
     this.setState({
       songs: this.props.room.queue,
-      songVotes: this.props.room.votes
+      songVotes: this.props.room.votes ? JSON.parse(this.props.room.votes) : {}
     });
   }
 
@@ -165,7 +155,7 @@ class SongQueue extends React.Component {
     console.log(nextProps);
     this.setState({
       songs: [...nextProps.room.queue, ...nextProps.songs],
-      songVotes: nextProps.room.votes
+      songVotes: nextProps.room.votes ? JSON.parse(nextProps.room.votes) : {}
     });
   }
 
