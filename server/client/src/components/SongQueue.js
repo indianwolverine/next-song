@@ -107,17 +107,18 @@ class SongQueue extends React.Component {
       });
     };
 
+    this.unique = (value, index, self) => {
+      return self.indexOf(value) === index;
+    };
+
     this.renderQueue = () => {
       console.log(this.state);
       console.log(this.props);
       if (this.state.songs) {
         // implement deduplication logic here
-
-        return this.state.songs.map(track => {
-          if (typeof track === "string") {
-            track = JSON.parse(track);
-          }
-
+        const songs = this.state.songs.filter(this.unique);
+        console.log(songs);
+        return songs.map(track => {
           return (
             <div key={track.uri}>
               <ListItem>
@@ -146,7 +147,12 @@ class SongQueue extends React.Component {
 
   componentDidMount() {
     this.setState({
-      songs: this.props.room.queue,
+      songs: this.props.room.queue
+        ? this.props.room.queue.map(track => {
+            track = JSON.parse(track);
+            return track;
+          })
+        : [],
       songVotes: this.props.room.votes ? JSON.parse(this.props.room.votes) : {}
     });
   }
@@ -154,7 +160,15 @@ class SongQueue extends React.Component {
   componentWillReceiveProps(nextProps) {
     console.log(nextProps);
     this.setState({
-      songs: [...nextProps.room.queue, ...nextProps.songs],
+      songs: [
+        ...(nextProps.room.queue
+          ? nextProps.room.queue.map(track => {
+              track = JSON.parse(track);
+              return track;
+            })
+          : null),
+        ...nextProps.songs
+      ],
       songVotes: nextProps.room.votes ? JSON.parse(nextProps.room.votes) : {}
     });
   }
