@@ -20,14 +20,14 @@ class SongQueue extends React.Component {
     };
 
     this.props.socket.on("RECEIVE_VOTE", data => {
-      console.log(data);
       this.setState({ songVotes: data });
     });
 
     this.props.socket.on("UPDATE_QUEUE", data => {
       console.log(this.state);
       console.log(this.props);
-      this.setState({ songs: [...this.props.room.queue, ...this.props.songs] });
+      this.props.addSongToQueue(data.song);
+      // this.setState({ songs: [...this.props.room.queue, ...this.props.songs] });
     });
 
     this.props.socket.on("RESET_QUEUE", () => {
@@ -39,7 +39,6 @@ class SongQueue extends React.Component {
     });
 
     this.vote = async e => {
-      console.log(this.state);
       if (!this.state.voted) {
         const track = e.target.id;
         if (!this.state.songVotes[track]) {
@@ -62,8 +61,6 @@ class SongQueue extends React.Component {
     };
 
     this.addToPlaylist = async () => {
-      console.log(this.state);
-      console.log(this.props);
       var nextSong = "";
       var maxVotes = 0;
       for (let song in this.state.songVotes) {
@@ -110,15 +107,17 @@ class SongQueue extends React.Component {
       });
     };
 
+    this.unique = (value, index, self) => {
+      return self.indexOf(value) === index;
+    };
+
     this.renderQueue = () => {
       console.log(this.state);
       console.log(this.props);
       if (this.state.songs) {
-        return this.state.songs.map(track => {
-          if (typeof track === "string") {
-            track = JSON.parse(track);
-          }
-
+        const songs = this.state.songs.filter(this.unique);
+        console.log(songs);
+        return songs.map(track => {
           return (
             <div key={track.uri}>
               <ListItem>
@@ -146,7 +145,31 @@ class SongQueue extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({ songs: this.props.room.queue });
+    this.setState({
+      songs: this.props.room.queue
+        ? this.props.room.queue.map(track => {
+            track = JSON.parse(track);
+            return track;
+          })
+        : [],
+      songVotes: this.props.room.votes ? JSON.parse(this.props.room.votes) : {}
+    });
+  }
+
+  componentWillReceiveProps(nextProps) {
+    console.log(nextProps);
+    this.setState({
+      songs: [
+        ...(nextProps.room.queue
+          ? nextProps.room.queue.map(track => {
+              track = JSON.parse(track);
+              return track;
+            })
+          : null),
+        ...nextProps.songs
+      ],
+      songVotes: nextProps.room.votes ? JSON.parse(nextProps.room.votes) : {}
+    });
   }
 
   render() {
