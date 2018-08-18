@@ -1,3 +1,7 @@
+body {
+  margin: 0px;
+}
+
 .wrapper {
   display: grid;
   background: linear-gradient(#a6e3ae, #1065b0);
@@ -8,7 +12,6 @@
   color: #00417a;
   font-weight: 300;
   grid-row: 1/18;
-  margin: -10px -10px -10px -10px;
 }
 
 .gradient {

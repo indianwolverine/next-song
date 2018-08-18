@@ -13,6 +13,7 @@ class NavBar extends React.Component {
           <a
             href="https://github.com/indianwolverine/next-song"
             target="_blank"
+            rel="noopener noreferrer"
           >
             <FaGithub />
           </a>
